@@ -7,6 +7,7 @@
 
 import Foundation
 
+// Formattér date_UTC fra launch api'et.
 extension JSONDecoder.DateDecodingStrategy {
     static let iso8601WithFractionalSeconds: JSONDecoder.DateDecodingStrategy = .custom { decoder in
         let container = try decoder.singleValueContainer()

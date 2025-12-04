@@ -9,35 +9,74 @@ import SwiftUI
 import MapKit
 
 struct LaunchDetailView: View {
-    @StateObject var lpVM = LaunchpadViewModel()
+    @EnvironmentObject var lpVM: LaunchpadViewModel
+    @EnvironmentObject var userVM: UserFavoritesViewModel
+    @EnvironmentObject var mapVM: MapViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     var launch: Launch
     var body: some View {
             ScrollView {
                 VStack {
+                    SectionHeader(title: "Launch Info")
                     LaunchInfoView(launch: launch)
                         .padding()
-                    if let crew = launch.crew {
-                        CrewView(crew: crew)
+                    
+                    Divider()
+                    
+                    SectionHeader(title: "Rocket")
+                    RocketInfoView(rocketId: launch.rocket)
+                        .padding()
+                    
+                    Divider()
+                    
+                    if let payloads = launch.payloads, !payloads.isEmpty {
+                        SectionHeader(title: "Payload")
+                        PayloadListView(payloadList: payloads)
+                            .padding()
+                        Divider()
                     }
-                    if let launchPad = lpVM.launchpad {
-                        MapView(pad: launchPad)
+                    
+                    
+                    if let capsules = launch.capsules, !capsules.isEmpty {
+                        SectionHeader(title: "Capsules")
+                        CapsuleListView(capsules: capsules)
+                            .padding()
+                        Divider()
                     }
-                    if let capsules = launch.capsules {
-                        CapsuleListView(capsuleList: capsules)
+                    
+                    SectionHeader(title: "Launchpad")
+                    LaunchpadInfoView(launchpadId: launch.launchPad)
+                        .padding()
+                        .environmentObject(mapVM)
+                    
+                    Divider()
+                    
+                    if let crew = launch.crew, !crew.isEmpty {
+                        SectionHeader(title: "Crew")
+                        LaunchCrewView(crew: crew)
+                            .padding()
                     }
-                }
-                .task {
-                    await lpVM.loadLaunchpad(launch.launchPad)
                 }
             }
             .padding()
             .navigationTitle("Launch details")
+            .toolbar {
+                if authVM.isLoggedIn {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            Task { @MainActor in
+                                await userVM.toggleFavorite(launch.id)
+                            }
+                        } label: {
+                            Image(systemName: userVM.isFavorite(launch.id) ? "star.fill" : "star")
+                                .foregroundColor(.yellow)
+                        }
+                    }
+                }
+            }
     }
 }
 
-#Preview {
-    LaunchDetailView(launch: Launch.preview)
-        .scaledToFit()
-}
+
 
 

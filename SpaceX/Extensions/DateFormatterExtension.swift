@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+// Custom dateformatter til visning i UI.
+extension DateFormatter {
+    static let uiDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.dateFormat = "d MMMM yyyy 'at' HH:mm 'CET"
+        return formatter
+    }()
+}

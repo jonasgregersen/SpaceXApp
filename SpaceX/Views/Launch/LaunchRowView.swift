@@ -43,8 +43,15 @@ struct LaunchRowView: View {
                 Text(DateFormatter.uiDate.string(from: launch.dateUTC))
                     .font(.caption)
                 if let success = launch.success {
-                    Text(success ? "Succeeded" : "Failed")
-                        .font(.caption)
+                    if success {
+                        Text("Succeeded")
+                            .font(.caption)
+                            .foregroundColor(.green)
+                    } else {
+                        Text("Failed")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                    }
                 } else {
                     Text("Unknown")
                         .font(.caption)

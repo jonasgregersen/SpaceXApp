@@ -8,33 +8,57 @@
 import SwiftUI
 import MapKit
 
-struct MapView: View {
-    @StateObject private var vm = LaunchpadViewModel()
+struct LaunchpadInfoView: View {
+    @EnvironmentObject private var vm: LaunchpadViewModel
+    @EnvironmentObject private var mapVM: MapViewModel
+    @EnvironmentObject private var tabVM: TabSelectionViewModel
+
     var launchpadId: String
-
     var body: some View {
-        VStack {
-            Text("Launchpad location")
-                .font(.headline)
-                .bold()
-                .padding()
-
-            if let pad = vm.launchpad {
-                let coordinates = CLLocationCoordinate2D(latitude: pad.latitude, longitude: pad.longitude)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
                 
-                Map(initialPosition: .region(
-                    MKCoordinateRegion(
-                        center: coordinates,
-                        span: .init(latitudeDelta: 0.1, longitudeDelta: 0.1)
-                    )
-                )) {
-                    Marker(pad.name, coordinate: coordinates)
+                // Kort
+                if let pad = vm.launchpad {
+                    
+                    Button("View on map") {
+                        mapVM.zoomToPad = pad
+                        tabVM.goToMapTab()
+                    }
+                    
+                    // Launchpad navn og type
+                    Text(pad.full_name)
+                        .font(.title2)
+                        .bold()
+                        .padding(.horizontal)
+                    
+                    if let details = pad.details {
+                        Text(details)
+                            .padding(.horizontal)
+                    }
+                    
+                    // Lokation
+                    Text("Location: \(pad.locality), \(pad.region)")
+                        .padding(.horizontal)
+                    
+                    // Status
+                    if let status = pad.status {
+                        Text("Status: \(status)")
+                            .padding(.horizontal)
+                    }
+                    
+                    // Antal opsendelser
+                    Text("Successful launches: \(pad.launch_successes)")
+                        .padding(.horizontal)
+                    
+                    Text("Failed launches: \(pad.launch_attempts - pad.launch_successes)")
+                        .padding(.horizontal)
+                    
+                    
+                } else {
+                    ProgressView("Loading launchpad...")
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
-                .frame(height: 300)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .padding()
-            } else {
-                ProgressView("Loading launchpad...")
             }
         }
         .task {
@@ -42,6 +66,8 @@ struct MapView: View {
         }
     }
 }
+
+
 
 
 

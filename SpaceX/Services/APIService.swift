@@ -7,10 +7,10 @@
 
 import Foundation
 
-final class APIService {
+final class APIService: APIServiceProtocol {
     
+    // Singleton APIService instans, sikrer at der kun findes én instans.
     static let shared = APIService()
-    private init() {}
     
     func fetch<T: Decodable>(_ endpoint: String) async throws -> T {
         let url = URL(string: "https://api.spacexdata.com/v4/\(endpoint)")!
@@ -27,6 +27,17 @@ final class APIService {
         decoder.dateDecodingStrategy = .iso8601WithFractionalSeconds
         return try decoder.decode(T.self, from: data)
     }
+    
+    struct LaunchService: LaunchServiceProtocol {
+        private let launchUrl = URL(string:"https://api.spacexdata.com/v5/launches")!
+        
+        func getLatestLaunches() async throws -> [Launch] {
+            try await APIService.shared.fetch(launchUrl)
+        }
+        func getLaunchById(_ id: String) async throws -> Launch {
+            let launchURL = URL(string: "https://api.spacexdata.com/v5/launches/\(id)")!
+            return try await APIService.shared.fetch(launchURL)
+        }
+    }
 }
-
 

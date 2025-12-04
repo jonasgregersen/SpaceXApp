@@ -6,3 +6,20 @@
 //
 
 import Foundation
+import SwiftUI
+
+class TabSelectionViewModel: ObservableObject {
+    @Published var selectedTab: Int = 0
+
+    func goToMapTab() {
+        selectedTab = 0
+    }
+
+    func goToLaunchesTab() {
+        selectedTab = 1
+    }
+
+    func goToFavoritesTab() {
+        selectedTab = 2
+    }
+}

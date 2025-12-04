@@ -25,11 +25,16 @@ struct LaunchInfoView: View {
                     .font(.headline)
                 Text(DateFormatter.uiDate.string(from: launch.dateUTC))
                 if let success = launch.success {
-                    Text("Status: \(success ? "Succeeded" : "Failed")")
-                        .foregroundColor(success ? .green : .red) // Hvis launch er succesfuld, er teksten grøn, ellers rød.
+                    Text(success ? "Succeeded" : "Failed")
+                        .foregroundColor(success ? .green : .red)
+                        .padding() // Hvis launch er succesfuld, er teksten grøn, ellers rød.
                 } else {
-                    Text("Status: Not Available")
-                        .foregroundColor(.gray) // Hvis der ikke er fundet en status, er teksten grå.
+                    Text("Status Not Available")
+                        .foregroundColor(.gray)
+                        .padding() // Hvis der ikke er fundet en status, er teksten grå.
+                }
+                if let details = launch.details {
+                    Text(details)
                 }
             }
         }

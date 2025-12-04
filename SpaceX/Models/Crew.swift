@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Crew: Codable, Hashable {
+struct Crew: Decodable, Hashable {
     let crew: String
     let role: String
 }
 
-struct CrewMember: Codable, Hashable, Identifiable {
+struct CrewMember: Decodable, Hashable, Identifiable {
     let id: String
     let name: String
     let agency: String?

@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct Capsule: Codable, Identifiable {
+struct Capsule: Decodable, Hashable, Identifiable {
     var id: String
-    var reuse_count: Int
-    var water_landings: Int
-    var land_landings: Int
-    var last_update: String
-    var launches: [String]
+    var reuse_count: Int?
+    var water_landings: Int?
+    var land_landings: Int?
+    var last_update: String?
+    var launches: [String]?
     var serial: String
     var status: String
     var type: String

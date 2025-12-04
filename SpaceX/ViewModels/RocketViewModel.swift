@@ -6,3 +6,22 @@
 //
 
 import Foundation
+
+@MainActor
+class RocketViewModel: ObservableObject {
+    @Published var rocket: Rocket? = nil
+    
+    var service: APIServiceProtocol
+    
+    init(service: APIServiceProtocol) {
+        self.service = service
+    }
+    
+    func load(_ rocketId: String) async {
+        do {
+            rocket = try await service.fetch("rockets/\(rocketId)")
+        } catch {
+            print("Der skete en fejl ved hentning af launchpad: \(error.localizedDescription)")
+        }
+    }
+}

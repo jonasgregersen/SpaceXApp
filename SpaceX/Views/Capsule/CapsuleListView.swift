@@ -8,26 +8,31 @@
 import SwiftUI
 
 struct CapsuleListView: View {
-    @StateObject private var vm = CapsuleViewModel()
-    var capsuleList: [String]
+    @EnvironmentObject private var vm: CapsuleViewModel
+    var capsules: [String]
     var body: some View {
-        NavigationStack() {
-            List(vm.capsules) {
-                capsule in
-                NavigationLink(value: capsule) {
-                    CapsuleRowView(capsule: capsule)
+        VStack(alignment: .leading) {
+            if !vm.capsules.isEmpty {
+                HStack {
+                    VStack(spacing: 10) {
+                        ForEach(vm.capsules) { capsule in
+                            CapsuleRowView(capsule: capsule)
+                        }
+                    }
+                    Spacer()
+                    
                 }
+                
             }
-            .navigationDestination(for: Capsule.self) { capsule in CapsuleDetailView(capsule: capsule)
-            }
-            .navigationTitle("Capsules")
-            .task {
-                await vm.loadCapsules(capsuleList)
-            }
+        }
+        .padding(.horizontal)
+        .task {
+            await vm.load(capsules)
         }
     }
 }
 
+
 #Preview {
-    CapsuleListView(capsuleList: Launch.preview.capsules!)
+    CapsuleListView(capsules: Launch.preview.capsules!)
 }

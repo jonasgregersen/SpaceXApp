@@ -6,3 +6,29 @@
 //
 
 import Foundation
+
+@MainActor
+final class PayloadViewModel: ObservableObject {
+    @Published var payloads: [Payload] = []
+    
+    var service: APIServiceProtocol
+    
+    init(service: APIServiceProtocol) {
+        self.service = service
+    }
+    
+    func load(_ payloadList: [String]) async {
+        var localPayloads: [Payload] = []
+        
+        for item in payloadList {
+            do {
+                let payload: Payload = try await APIService.shared.fetch("payloads/\(item)")
+                localPayloads.append(payload)
+            } catch {
+                print("Kunne ikke hente payload: \(error.localizedDescription)")
+            }
+        }
+        print("Fandt \(localPayloads.count) payloads.")
+        payloads = localPayloads
+    }
+}

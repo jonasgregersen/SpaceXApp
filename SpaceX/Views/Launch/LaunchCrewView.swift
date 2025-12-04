@@ -9,15 +9,11 @@ import SwiftUI
 
 struct LaunchCrewView: View {
     var crew: [Crew]
-    @StateObject private var vm = CrewViewModel()
+    @EnvironmentObject private var vm: CrewViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             if !vm.crewMembers.isEmpty {
-                Text("Crew Members")
-                    .font(.headline)
-                    .bold()
-                
                 LazyVStack(spacing: 10) {
                     ForEach(vm.crewMembers, id: \.0.id) { member, role in
                         HStack(spacing: 12) {
@@ -56,5 +52,5 @@ struct LaunchCrewView: View {
 
 
 #Preview {
-    CrewView(crew: [Crew.preview])
+    LaunchCrewView(crew: [Crew.preview])
 }

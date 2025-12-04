@@ -6,19 +6,49 @@
 //
 
 import SwiftUI
-
+import FirebaseAuth
 struct ContentView: View {
+    @StateObject private var authVM = AuthViewModel(service: AuthService())
+    @StateObject private var capsVM = CapsuleViewModel(service: APIService.shared)
+    @StateObject private var crewVM = CrewViewModel(service: APIService.shared)
+    @StateObject private var favLaunchVM = FavoriteLaunchesViewModel(service: APIService.LaunchService())
+    @StateObject private var launchpadVM = LaunchpadViewModel(service: APIService.shared)
+    @StateObject private var launchVM = LaunchViewModel(service: APIService.LaunchService())
+    @StateObject private var mapVM = MapViewModel()
+    @StateObject private var payloadVM = PayloadViewModel(service: APIService.shared)
+    @StateObject private var rocketVM = RocketViewModel(service: APIService.shared)
+    @StateObject private var tabVM = TabSelectionViewModel()
+    @StateObject private var userVM = UserFavoritesViewModel(service: UserFavoritesService())
+
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+            MainView()
+                .environmentObject(authVM)
+                .environmentObject(capsVM)
+                .environmentObject(crewVM)
+                .environmentObject(favLaunchVM)
+                .environmentObject(launchpadVM)
+                .environmentObject(launchVM)
+                .environmentObject(mapVM)
+                .environmentObject(payloadVM)
+                .environmentObject(rocketVM)
+                .environmentObject(tabVM)
+                .environmentObject(userVM)
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(AuthViewModel(service: AuthService()))
+        .environmentObject(CapsuleViewModel(service: APIService.shared))
+        .environmentObject(CrewViewModel(service: APIService.shared))
+        .environmentObject(FavoriteLaunchesViewModel(service: APIService.LaunchService()))
+        .environmentObject(LaunchpadViewModel(service: APIService.shared))
+        .environmentObject(LaunchViewModel(service: APIService.LaunchService()))
+        .environmentObject(MapViewModel())
+        .environmentObject(PayloadViewModel(service: APIService.shared))
+        .environmentObject(RocketViewModel(service: APIService.shared))
+        .environmentObject(TabSelectionViewModel())
+        .environmentObject(UserFavoritesViewModel(service: UserFavoritesService()))
+    
 }

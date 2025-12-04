@@ -8,11 +8,24 @@
 import SwiftUI
 
 struct FavoritesView: View {
+    @EnvironmentObject var favLaunchVM: FavoriteLaunchesViewModel
+    @EnvironmentObject var userFavVM: UserFavoritesViewModel
+    
+    @State private var path = NavigationPath()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack(path: $path) {
+            LaunchListView(launches: favLaunchVM.favoriteLaunches, title: "Favorite Launches")
+            .task {
+                // Først load favorite IDs
+                await userFavVM.loadFavorites()
+                // Dernæst hent Launch objekter baseret på IDs
+                await favLaunchVM.loadLaunches(for: userFavVM.favoriteIds)
+            }
+        }
+        .background(Color.black)
     }
 }
 
-#Preview {
-    FavoritesView()
-}
+
+
