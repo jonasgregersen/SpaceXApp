@@ -1,0 +1,44 @@
+//
+//  LaunchInfoView.swift
+//  SpaceX
+//
+//  Created by Jonas Gregersen on 01/12/2025.
+//
+
+import SwiftUI
+
+struct LaunchInfoView: View {
+    var launch: Launch
+    var body: some View {
+        VStack {
+            AsyncImage(url: launch.patchImage) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 200, height: 200)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            } placeholder: {
+                ProgressView()
+            }
+            VStack {
+                Text(launch.name)
+                    .font(.headline)
+                Text(DateFormatter.uiDate.string(from: launch.dateUTC))
+                if let success = launch.success {
+                    Text("Status: \(success ? "Succeeded" : "Failed")")
+                        .foregroundColor(success ? .green : .red) // Hvis launch er succesfuld, er teksten grøn, ellers rød.
+                } else {
+                    Text("Status: Not Available")
+                        .foregroundColor(.gray) // Hvis der ikke er fundet en status, er teksten grå.
+                }
+            }
+        }
+    }
+}
+
+#Preview {
+    LaunchInfoView(launch: Launch.preview)
+        .scaledToFit()
+}
+
+
