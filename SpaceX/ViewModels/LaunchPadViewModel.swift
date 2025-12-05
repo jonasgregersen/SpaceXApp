@@ -7,6 +7,7 @@
 
 import Foundation
 
+// Denne ViewModels struktur indeholder både en funktion for at hente én Launch Pad, samt en funktion for at hente alle Launch Pads i API'et. Formålet er det samme som CapsuleViewModel
 @MainActor
 class LaunchPadViewModel: ObservableObject {
     @Published var launchpad: LaunchPad? = nil

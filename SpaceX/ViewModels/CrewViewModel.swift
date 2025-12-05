@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+// Samme struktur som CapsuleViewModel, bare for CrewMember objekter
 @MainActor
 class CrewViewModel: ObservableObject {
     @Published var crewMembers: [(CrewMember, String)] = [] // (medlem, rolle)

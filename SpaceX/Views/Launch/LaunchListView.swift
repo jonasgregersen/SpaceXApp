@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct LaunchListView: View { // Genbruglig view med liste over launches.
+// Dette View håndterer listevisning af launches. Viewet er modulariseret for pålidelig genbrug, som sikrer ensartet LaunchListViews i applikationen. Indeholder en funktion for at tilføje launches til favorit ved swipe action.
+struct LaunchListView: View {
     var launches: [Launch]
     var title: String?
-    @State private var path = NavigationPath()
     @EnvironmentObject private var mapVM: MapViewModel
     @EnvironmentObject private var userFavVM: UserFavoritesViewModel
     @EnvironmentObject private var favLaunchVM: FavoriteLaunchesViewModel

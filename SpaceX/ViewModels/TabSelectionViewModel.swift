@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-// Bruges primært til at navigere til map fra "vis på kort" knap i LaunchpadInfoView.
+// Denne ViewModel håndterer tabvisning og navigering. Dens primære funktion er at redirigere view'et til kortet ved klik på "Show on map" i LaunchpadInfoView.
 class TabSelectionViewModel: ObservableObject {
     @Published var selectedTab: Int = 0
     @Published var showingLandingPadsTab: Bool = false // Hvis map picker er sat til show landingpads, skifter den til show launchpads ved tryk af "vis på kort" knap i LaunchpadInfoView.

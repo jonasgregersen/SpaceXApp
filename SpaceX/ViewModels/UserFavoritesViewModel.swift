@@ -9,6 +9,7 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
+// Denen ViewModel håndterer favorit laucnhes i Firestore, samt storer ID'er på launches markeret som favorit.
 @MainActor
 final class UserFavoritesViewModel: ObservableObject {
     @Published var favoriteIds: [String] = []

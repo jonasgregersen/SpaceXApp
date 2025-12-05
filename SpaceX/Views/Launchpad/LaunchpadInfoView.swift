@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 
+// Dette View håndterer visning af relevant information for en launchpad. Indeholder en funktion for visning af launchpad på kortet.
 struct LaunchpadInfoView: View {
     @EnvironmentObject private var vm: LaunchPadViewModel
     @EnvironmentObject private var mapVM: MapViewModel

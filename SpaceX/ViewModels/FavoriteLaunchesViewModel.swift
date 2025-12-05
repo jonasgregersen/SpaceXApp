@@ -7,11 +7,12 @@
 
 import Foundation
 
+// ViewModel der håndterer favorit launches for UserFavoritesViewModel. Denne ViewModels ansvar er at decode launchId's fra UserFavoritesViewModel til brugbare Launch objekter, som gemmes på ViewModel til brug.
 @MainActor
 final class FavoriteLaunchesViewModel: ObservableObject {
     @Published var favoriteLaunches: [Launch] = []
-    @Published var isLoading: Bool
-    private var hasLoaded = false
+    @Published var isLoading: Bool // Sikrer at brugeren bliver informeret om at indlæsning er ved at ske.
+    private var hasLoaded = false // Sikrer at hvis userens favorit launches ikke er opdateret, skal favorit launches ikke genindlæses.
     
     private let launchService: LaunchServiceProtocol
     

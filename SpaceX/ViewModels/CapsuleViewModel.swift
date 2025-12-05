@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+// ViewModel der håndterer asynkron API kald, og opbevarer resultatet til brug.
 @MainActor
 class CapsuleViewModel: ObservableObject {
     @Published var capsules: [Capsule] = []

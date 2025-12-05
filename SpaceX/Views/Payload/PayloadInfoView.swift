@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Dette View håndterer visning af relevant information for et payload.
 struct PayloadInfoView: View {
     let payload: Payload
 

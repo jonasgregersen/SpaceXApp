@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Dette View håndterer visning af crew informationer som crew medlemmer i LaunchDetailView.
 struct LaunchCrewView: View {
     var crew: [Crew]
     @EnvironmentObject private var vm: CrewViewModel

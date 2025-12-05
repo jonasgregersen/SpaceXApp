@@ -42,6 +42,7 @@ enum MapPadItem: Identifiable {
     }
 }
 
+// Dette View håndterer visning af kort og dets elementer. Elementerne på kortet bestemmes med et Picker element, som skifter imellem launch- og landingpads. Kortets elementer er klikbare, og viser en liste over de launches som er tilknyttet det valgte element.
 struct MapView: View {
     var launchpads: [LaunchPad]
     var landingpads: [LandingPad]
@@ -94,6 +95,7 @@ struct MapView: View {
                 })
             }
         }
+        // Sheet visning for launches knyttet til kort elementet.
         .sheet(item: $mapVM.showSheetForPad) { pad in
             let padLaunches: [Launch] = {
                     switch pad {
@@ -110,6 +112,7 @@ struct MapView: View {
                     }
             }
         }
+        // En OnChangeListener, som lytter på ændringer af det valgte kort element
         .onChange(of: mapVM.zoomToPad) { pad in
             guard let pad = pad else {return}
             mapVM.region = MKCoordinateRegion(

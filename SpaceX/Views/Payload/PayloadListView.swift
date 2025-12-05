@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+// Dette View håndterer visning af en liste over payloads knyttet til et launch. Elementerne er klikbare, som redirigerer til PayLoadInfoView.
 struct PayloadListView: View {
     @EnvironmentObject private var vm: PayloadViewModel
     let payloadList: [String]
@@ -24,8 +25,12 @@ struct PayloadListView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 12)
+                        .foregroundColor(Color(.secondarySystemBackground)))
                     .padding(.vertical, 4)
                 }
+                
             }
         }
         .onAppear {

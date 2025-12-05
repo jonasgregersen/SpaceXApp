@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Dette View håndterer visning af relevant information fra Launches i LaunchListView.
 struct LaunchRowView: View {
     var launch: Launch
     @EnvironmentObject private var userFavVM: UserFavoritesViewModel
@@ -44,7 +45,7 @@ struct LaunchRowView: View {
                     Text(launch.name)
                         .bold()
                 }
-                Text(DateFormatter.uiDate.string(from: launch.dateUTC))
+                Text(DateFormatter.uiDate.string(from: launch.dateUTC)) // Datoen formatteres med en custom                                                         DateFormatter.
                     .font(.caption)
                 if let success = launch.success {
                     if success {

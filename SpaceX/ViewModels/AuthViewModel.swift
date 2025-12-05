@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 
+// ViewModel der håndterer authentification af brugere, og håndterer login, logud og opret bruger logik.
 @MainActor
 class AuthViewModel: ObservableObject {
     @Published var user: User? = nil

@@ -1,5 +1,6 @@
 import SwiftUI
 
+// Dette View håndterer en login, samt bruger authViewModel til authentification og verificering af login oplysninger
 struct LoginView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var userFavVM: UserFavoritesViewModel

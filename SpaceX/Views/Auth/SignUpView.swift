@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Dette View håndterer signup, ved brug af AuthViewModel til authentification og verificering.
 struct SignUpView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @State private var email = ""

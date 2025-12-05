@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Dette View håndterer visning af et LaunchListView, samt bruger LaunchViewModel til indhentning af alle launches fra API'et.
 struct AllLaunchesView: View {
     @EnvironmentObject private var launchVM: LaunchViewModel
     
@@ -17,7 +18,7 @@ struct AllLaunchesView: View {
             LaunchListView(launches: launchVM.launches, title: "All Launches")
                 .onAppear {
                     Task {
-                        await launchVM.load() // Load alle launches og injicere dem i launchlistview.
+                        await launchVM.load() // Load alle launches og injicér dem i launchlistview.
                     }
                 }
                 .overlay {

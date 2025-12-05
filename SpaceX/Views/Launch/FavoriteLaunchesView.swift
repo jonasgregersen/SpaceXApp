@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Dette View har samme struktur som AllLaunchesView. Afviger ved indlæsning af launches, som henter launches baseret på user favorites fra relaterede ViewModels.
 struct FavoriteLaunchesView: View {
     @EnvironmentObject var favLaunchVM: FavoriteLaunchesViewModel
     @EnvironmentObject var userFavVM: UserFavoritesViewModel

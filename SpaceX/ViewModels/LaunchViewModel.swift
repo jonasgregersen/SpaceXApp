@@ -6,6 +6,7 @@
 //
 import Foundation
 
+//Denne ViewModel's struktur er den samme som FavoriteLaunchViewModel, bare Launches ikke er baseret på user favorites, men hele API'et.
 @MainActor
 final class LaunchViewModel: ObservableObject {
     @Published var launches: [Launch] = []

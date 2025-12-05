@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Dette View håndterer visning af forskellige tabs i applikationen. Dets formål er også at initialisere ViewModels med data, så det kan blive vist i SubViews.
 struct MainView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var favVM: UserFavoritesViewModel

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+// Dette View initialiserer alle ViewModels, og injicerer dem ind i MainView, så de kan bruges globalt på applikationen.
 struct ContentView: View {
     
     // Oprettelse af alle ViewModeller med service injiceret.
