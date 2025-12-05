@@ -32,5 +32,9 @@ final class LaunchViewModel: ObservableObject {
             print("Kunne ikke hente launch oplysninger: \(error.localizedDescription)")
         }
     }
+    func reload() async {
+        hasLoaded = false
+        await load()
+    }
 
 }

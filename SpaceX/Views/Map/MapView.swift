@@ -46,19 +46,18 @@ struct MapView: View {
     var landingpads: [LandingPad]
     @EnvironmentObject private var launchVM: LaunchViewModel
     @EnvironmentObject private var mapVM: MapViewModel
-    
-    @State private var showingLandingPads: Bool = false
+    @EnvironmentObject private var tabVM: TabSelectionViewModel
     
     var body: some View {
         VStack {
-            Picker("Pads", selection: $showingLandingPads) {
-                Text("Launchpads").tag(false)
-                Text("Landingpads").tag(true)
+            Picker("Pads", selection: $tabVM.showingLandingPadsTab) {
+                Text("Launch Pads").tag(false)
+                Text("Landing Pads").tag(true)
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()
             
-            if !showingLandingPads {
+            if !tabVM.showingLandingPadsTab {
                 Map(coordinateRegion: $mapVM.region, annotationItems: launchpads, annotationContent: { pad in
                     MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: pad.latitude, longitude: pad.longitude)) {
                         Button {

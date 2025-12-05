@@ -10,6 +10,7 @@ import SwiftUI
 
 class TabSelectionViewModel: ObservableObject {
     @Published var selectedTab: Int = 0
+    @Published var showingLandingPadsTab: Bool = false
 
     func goToMapTab() {
         selectedTab = 0

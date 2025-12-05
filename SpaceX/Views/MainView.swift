@@ -24,7 +24,7 @@ struct MainView: View {
         TabView(selection: $tabVM.selectedTab) {
             NavigationStack {
                 MapView(launchpads: launchpadVM.allLaunchpads, landingpads: landpadVM.allLandingPads)
-                    .navigationTitle("Launchpad Overview")
+                    .navigationTitle("Pad Overview")
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
                             if authVM.isLoggedIn {

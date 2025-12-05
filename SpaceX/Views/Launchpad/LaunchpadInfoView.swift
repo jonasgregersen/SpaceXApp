@@ -23,6 +23,8 @@ struct LaunchpadInfoView: View {
                     
                     Button("View on map") {
                         mapVM.zoom(to: pad)
+                        mapVM.showSheetForPad = nil
+                        tabVM.showingLandingPadsTab = false
                         tabVM.goToMapTab()
                     }
                     

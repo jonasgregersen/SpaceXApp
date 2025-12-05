@@ -25,6 +25,9 @@ struct AllLaunchesView: View {
                         ProgressView("Henter launches...")
                     }
                 }
+                .refreshable {
+                    await launchVM.reload()
+                }
         }
     }
 }

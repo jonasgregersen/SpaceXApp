@@ -39,5 +39,4 @@ struct LandingPad: Identifiable, Decodable, Equatable {
     }
 }
 
-extension LandingPad: PadProtocol {}
 

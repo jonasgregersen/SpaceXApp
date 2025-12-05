@@ -23,6 +23,9 @@ final class MapViewModel: ObservableObject {
                 center: CLLocationCoordinate2D(latitude: pad.latitude, longitude: pad.longitude),
                 span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
                 )
+            
+            try? await Task.sleep(nanoseconds: 1_000_000)
+            self.zoomToPad = nil
         }
     }
 }

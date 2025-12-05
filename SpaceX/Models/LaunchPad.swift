@@ -24,5 +24,4 @@ struct LaunchPad: Decodable, Identifiable, Equatable {
     let details: String?
 }
 
-extension LaunchPad: PadProtocol {}
 
