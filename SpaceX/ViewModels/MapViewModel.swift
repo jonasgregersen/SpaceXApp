@@ -10,13 +10,13 @@ import MapKit
 
 @MainActor
 final class MapViewModel: ObservableObject {
-    @Published var showSheetForPad: Launchpad? = nil
-    @Published var zoomToPad: Launchpad? = nil
+    @Published var showSheetForPad: MapPadItem? = nil
+    @Published var zoomToPad: LaunchPad? = nil
     @Published var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 28.5, longitude: -80.6),
         span: MKCoordinateSpan(latitudeDelta: 60, longitudeDelta: 60))
     
-    func zoom(to pad: Launchpad) {
+    func zoom(to pad: LaunchPad) {
         Task { @MainActor in
             self.zoomToPad = pad
             self.region = MKCoordinateRegion(

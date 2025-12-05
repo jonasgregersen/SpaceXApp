@@ -12,7 +12,8 @@ struct MainView: View {
     @EnvironmentObject var favVM: UserFavoritesViewModel
     @EnvironmentObject var tabVM: TabSelectionViewModel
     @EnvironmentObject var mapVM: MapViewModel
-    @EnvironmentObject var launchpadVM: LaunchpadViewModel
+    @EnvironmentObject var landpadVM: LandingPadViewModel
+    @EnvironmentObject var launchpadVM: LaunchPadViewModel
     @EnvironmentObject var favLaunchVM: FavoriteLaunchesViewModel
     @EnvironmentObject var launchVM: LaunchViewModel
     
@@ -22,7 +23,7 @@ struct MainView: View {
     var body: some View {
         TabView(selection: $tabVM.selectedTab) {
             NavigationStack {
-                MapView(launchpads: launchpadVM.allLaunchpads)
+                MapView(launchpads: launchpadVM.allLaunchpads, landingpads: landpadVM.allLandingPads)
                     .navigationTitle("Launchpad Overview")
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
@@ -41,8 +42,9 @@ struct MainView: View {
             }
             .task {
                 await launchpadVM.loadAll()
+                await landpadVM.loadAll()
             }
-            .tabItem { Label("Launchpads", systemImage: "map")}
+            .tabItem { Label("Map", systemImage: "map")}
             .tag(0)
             
             NavigationStack {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Launchpad: Decodable, Identifiable, Equatable {
+struct LaunchPad: Decodable, Identifiable, Equatable {
     let id: String
     let name: String
     let full_name: String
@@ -23,3 +23,6 @@ struct Launchpad: Decodable, Identifiable, Equatable {
     let status: String?
     let details: String?
 }
+
+extension LaunchPad: PadProtocol {}
+

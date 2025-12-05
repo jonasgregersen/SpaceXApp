@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct LaunchpadInfoView: View {
-    @EnvironmentObject private var vm: LaunchpadViewModel
+    @EnvironmentObject private var vm: LaunchPadViewModel
     @EnvironmentObject private var mapVM: MapViewModel
     @EnvironmentObject private var tabVM: TabSelectionViewModel
 

@@ -8,9 +8,9 @@
 import Foundation
 
 @MainActor
-class LaunchpadViewModel: ObservableObject {
-    @Published var launchpad: Launchpad? = nil
-    @Published var allLaunchpads: [Launchpad] = []
+class LaunchPadViewModel: ObservableObject {
+    @Published var launchpad: LaunchPad? = nil
+    @Published var allLaunchpads: [LaunchPad] = []
     
     var service: APIServiceProtocol
     

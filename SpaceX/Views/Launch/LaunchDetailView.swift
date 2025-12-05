@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct LaunchDetailView: View {
-    @EnvironmentObject var lpVM: LaunchpadViewModel
+    @EnvironmentObject var lpVM: LaunchPadViewModel
     @EnvironmentObject var userVM: UserFavoritesViewModel
     @EnvironmentObject var mapVM: MapViewModel
     @EnvironmentObject var authVM: AuthViewModel
