@@ -11,7 +11,7 @@ import SwiftUI
 struct PayloadListView: View {
     @EnvironmentObject private var vm: PayloadViewModel
     let payloadList: [String]
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             ForEach(vm.payloads) { payload in
@@ -19,7 +19,7 @@ struct PayloadListView: View {
                     VStack(alignment: .leading) {
                         Text(payload.name)
                             .font(.headline)
-
+                        
                         Text(payload.type)
                             .font(.subheadline)
                             .foregroundColor(.secondary)
@@ -28,10 +28,11 @@ struct PayloadListView: View {
                 }
             }
         }
-        .task {
-            await vm.load(payloadList)
+        .onAppear {
+            Task {
+                await vm.load(payloadList)
+            }
         }
     }
 }
-
-
+    

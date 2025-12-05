@@ -34,6 +34,17 @@ final class APIService: APIServiceProtocol {
         func getLatestLaunches() async throws -> [Launch] {
             try await APIService.shared.fetch(launchUrl)
         }
+        func idsToLaunchArray(_ ids: [String]) async throws -> [Launch] {
+            var launchArray: [Launch] = []
+            do {
+                for id in ids {
+                    try launchArray.append(await getLaunchById(id))
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+            return launchArray
+        }
         func getLaunchById(_ id: String) async throws -> Launch {
             let launchURL = URL(string: "https://api.spacexdata.com/v5/launches/\(id)")!
             return try await APIService.shared.fetch(launchURL)

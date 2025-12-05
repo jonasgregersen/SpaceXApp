@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FavoritesView: View {
+struct FavoriteLaunchesView: View {
     @EnvironmentObject var favLaunchVM: FavoriteLaunchesViewModel
     @EnvironmentObject var userFavVM: UserFavoritesViewModel
     
@@ -16,12 +16,14 @@ struct FavoritesView: View {
     var body: some View {
         NavigationStack(path: $path) {
             LaunchListView(launches: favLaunchVM.favoriteLaunches, title: "Favorite Launches")
-            .task {
-                // Først load favorite IDs
-                await userFavVM.loadFavorites()
-                // Dernæst hent Launch objekter baseret på IDs
-                await favLaunchVM.loadLaunches(for: userFavVM.favoriteIds)
-            }
+                .onAppear {
+                    Task {
+                        // Først load favorite IDs
+                        await userFavVM.loadFavorites()
+                        // Dernæst hent Launch objekter baseret på IDs
+                        await favLaunchVM.loadLaunches(for: userFavVM.favoriteIds)
+                    }
+                }
         }
         .background(Color.black)
     }

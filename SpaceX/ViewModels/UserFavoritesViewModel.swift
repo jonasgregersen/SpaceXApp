@@ -13,6 +13,8 @@ import FirebaseFirestore
 final class UserFavoritesViewModel: ObservableObject {
     @Published var favoriteIds: [String] = []
     
+    private var hasLoaded: Bool = false
+    
     private let service: UserFavoritesServiceProtocol
     
     init(service: UserFavoritesServiceProtocol) {
@@ -21,8 +23,10 @@ final class UserFavoritesViewModel: ObservableObject {
     
     func loadFavorites() async {
         do {
+            guard !hasLoaded else { return }
             let ids = try await service.loadFavorites()
             favoriteIds = ids
+            hasLoaded = true
         } catch {
             print("Error loading favorites: \(error)")
         }
@@ -36,6 +40,7 @@ final class UserFavoritesViewModel: ObservableObject {
             favoriteIds.append(id)
             try? await service.addFavorite(id)
         }
+        hasLoaded = false
     }
     
     func isFavorite(_ id: String) -> Bool {

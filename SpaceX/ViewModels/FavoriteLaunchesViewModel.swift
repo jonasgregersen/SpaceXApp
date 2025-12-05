@@ -11,6 +11,7 @@ import Foundation
 final class FavoriteLaunchesViewModel: ObservableObject {
     @Published var favoriteLaunches: [Launch] = []
     @Published var isLoading: Bool
+    private var hasLoaded = false
     
     private let launchService: LaunchServiceProtocol
     
@@ -20,25 +21,22 @@ final class FavoriteLaunchesViewModel: ObservableObject {
     }
     
     func loadLaunches(for ids: [String]) async {
+        guard !hasLoaded else { return }
         isLoading = true
         defer { isLoading = false }
-        var launches: [Launch] = []
-        
-        await withTaskGroup(of: (Launch?).self) { group in
-            for id in ids {
-                group.addTask {
-                    try? await self.launchService.getLaunchById(id)
-                }
-            }
-            
-            for await result in group {
-                if let launch = result {
-                    launches.append(launch)
-                }
-            }
+        var launches: [Launch]
+        do {
+            launches = try await self.launchService.idsToLaunchArray(ids)
+            launches = launches.sorted { $0.dateUTC > $1.dateUTC }
+            favoriteLaunches = launches
+            hasLoaded = true
+        } catch {
+            print(error.localizedDescription)
         }
-        
-        favoriteLaunches = launches.sorted {$0.dateUTC > $1.dateUTC}
+    }
+    
+    func reload() {
+        hasLoaded = false
     }
 }
 

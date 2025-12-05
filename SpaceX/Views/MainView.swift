@@ -15,35 +15,35 @@ struct MainView: View {
     @EnvironmentObject var launchpadVM: LaunchpadViewModel
     @EnvironmentObject var favLaunchVM: FavoriteLaunchesViewModel
     @EnvironmentObject var launchVM: LaunchViewModel
-
+    
     
     @State private var showLogIn: Bool = false
     
     var body: some View {
         TabView(selection: $tabVM.selectedTab) {
-                NavigationStack {
-                    MapView(launchpads: launchpadVM.allLaunchpads)
-                        .navigationTitle("Launchpad Overview")
-                        .toolbar {
-                            ToolbarItem(placement: .topBarTrailing) {
-                                if authVM.isLoggedIn {
-                                    Button("Sign out") {
-                                        authVM.signOut()
-                                    }
-                                } else {
-                                    Button("Log in") {
-                                        showLogIn = true
-                                    }
+            NavigationStack {
+                MapView(launchpads: launchpadVM.allLaunchpads)
+                    .navigationTitle("Launchpad Overview")
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            if authVM.isLoggedIn {
+                                Button("Sign out") {
+                                    authVM.signOut()
+                                }
+                            } else {
+                                Button("Log in") {
+                                    showLogIn = true
                                 }
                             }
                         }
-                        .environmentObject(mapVM)
-                }
-                .task {
-                    await launchpadVM.loadAll()
-                }
-                .tabItem { Label("Launchpads", systemImage: "globe")}
-                .tag(0)
+                    }
+                    .environmentObject(mapVM)
+            }
+            .task {
+                await launchpadVM.loadAll()
+            }
+            .tabItem { Label("Launchpads", systemImage: "map")}
+            .tag(0)
             
             NavigationStack {
                 AllLaunchesView()
@@ -88,7 +88,7 @@ struct MainView: View {
             }
             if authVM.isLoggedIn {
                 NavigationStack {
-                    FavoritesView()
+                    FavoriteLaunchesView()
                         .navigationTitle("Favorites")
                         .toolbar {
                             ToolbarItem(placement: .topBarTrailing) {

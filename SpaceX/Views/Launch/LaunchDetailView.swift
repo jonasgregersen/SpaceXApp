@@ -13,6 +13,7 @@ struct LaunchDetailView: View {
     @EnvironmentObject var userVM: UserFavoritesViewModel
     @EnvironmentObject var mapVM: MapViewModel
     @EnvironmentObject var authVM: AuthViewModel
+    @EnvironmentObject var favLaunchVM: FavoriteLaunchesViewModel
     var launch: Launch
     var body: some View {
             ScrollView {
@@ -66,6 +67,8 @@ struct LaunchDetailView: View {
                         Button {
                             Task { @MainActor in
                                 await userVM.toggleFavorite(launch.id)
+                                favLaunchVM.reload()
+                                await favLaunchVM.loadLaunches(for: userVM.favoriteIds)
                             }
                         } label: {
                             Image(systemName: userVM.isFavorite(launch.id) ? "star.fill" : "star")
