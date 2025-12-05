@@ -22,7 +22,7 @@ struct LaunchpadInfoView: View {
                 if let pad = vm.launchpad {
                     
                     Button("View on map") {
-                        mapVM.zoomToPad = pad
+                        mapVM.zoom(to: pad)
                         tabVM.goToMapTab()
                     }
                     

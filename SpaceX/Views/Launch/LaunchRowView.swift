@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LaunchRowView: View {
     var launch: Launch
+    @EnvironmentObject private var userFavVM: UserFavoritesViewModel
     var body: some View {
         HStack {
             AsyncImage(url: launch.patchImage, transaction: Transaction(animation: .easeIn)) { phase in
@@ -38,8 +39,10 @@ struct LaunchRowView: View {
             }
 
             VStack(alignment: .leading) {
-                Text(launch.name)
-                    .bold()
+                HStack {
+                    Text(launch.name)
+                        .bold()
+                }
                 Text(DateFormatter.uiDate.string(from: launch.dateUTC))
                     .font(.caption)
                 if let success = launch.success {
@@ -56,8 +59,13 @@ struct LaunchRowView: View {
                     Text("Unknown")
                         .font(.caption)
                 }
+                
             }
             Spacer()
+            if userFavVM.isFavorite(launch.id) {
+                Image(systemName: "star.fill")
+                    .foregroundColor(.yellow)
+            }
         }
     }
 }

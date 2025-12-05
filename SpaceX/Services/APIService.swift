@@ -36,13 +36,11 @@ final class APIService: APIServiceProtocol {
         }
         func idsToLaunchArray(_ ids: [String]) async throws -> [Launch] {
             var launchArray: [Launch] = []
-            do {
-                for id in ids {
-                    try launchArray.append(await getLaunchById(id))
-                }
-            } catch {
-                print(error.localizedDescription)
+            
+            for id in ids {
+                try launchArray.append(await getLaunchById(id))
             }
+            
             return launchArray
         }
         func getLaunchById(_ id: String) async throws -> Launch {
