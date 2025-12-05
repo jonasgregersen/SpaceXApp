@@ -12,6 +12,9 @@ struct LaunchListView: View {
     var title: String?
     @State private var path = NavigationPath()
     @EnvironmentObject private var mapVM: MapViewModel
+    @EnvironmentObject private var userFavVM: UserFavoritesViewModel
+    @EnvironmentObject private var favLaunchVM: FavoriteLaunchesViewModel
+    @EnvironmentObject private var authVM: AuthViewModel
     
     var body: some View {
         Group {
@@ -28,6 +31,21 @@ struct LaunchListView: View {
                     launch in
                     NavigationLink(value: launch) {
                         LaunchRowView(launch: launch)
+                    }
+                    .swipeActions {
+                        if authVM.isLoggedIn {
+                            Button {
+                                Task {
+                                    await userFavVM.toggleFavorite(launch.id)
+                                    favLaunchVM.reload()
+                                    await favLaunchVM.loadLaunches(for: userFavVM.favoriteIds)
+                                    
+                                }
+                            } label: {
+                                Label("Favorite", systemImage: "star")
+                            }
+                            .tint(.yellow)
+                        }
                     }
                 }
                 .navigationDestination(for: Launch.self) { launch in LaunchDetailView(launch: launch).environmentObject(mapVM)
