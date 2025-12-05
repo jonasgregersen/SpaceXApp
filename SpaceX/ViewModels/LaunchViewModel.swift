@@ -6,7 +6,7 @@
 //
 import Foundation
 
-//Denne ViewModel's struktur er den samme som FavoriteLaunchViewModel, bare Launches ikke er baseret på user favorites, men hele API'et.
+/// Denne ViewModel's struktur er den samme som FavoriteLaunchViewModel, bare Launches ikke er baseret på user favorites, kald fra API'et.
 @MainActor
 final class LaunchViewModel: ObservableObject {
     @Published var launches: [Launch] = []
@@ -19,7 +19,7 @@ final class LaunchViewModel: ObservableObject {
         self.service = service
     }
     
-    // Henter alle launches fra API'et og sætter launches variabel til de launches.
+    /// Henter alle launches fra API'et og sætter launches variabel til de launches.
     func load() async {
         guard !hasLoaded else { return } // Hvis launches er loaded, kør ikke metoden.
         isLoading = true
@@ -35,7 +35,7 @@ final class LaunchViewModel: ObservableObject {
         }
     }
     
-    // Genindlæsning af launches fra API
+    /// Genindlæsning af launches fra API
     func reload() async {
         hasLoaded = false
         await load()

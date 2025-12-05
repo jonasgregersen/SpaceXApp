@@ -8,7 +8,7 @@
 import SwiftUI
 import MapKit
 
-// Dette View håndterer visning af relevant information for en launchpad. Indeholder en funktion for visning af launchpad på kortet.
+/// Vis detaljer for en launchpad og giver mulighed for at zoome ind på kortet.
 struct LaunchpadInfoView: View {
     @EnvironmentObject private var vm: LaunchPadViewModel
     @EnvironmentObject private var mapVM: MapViewModel
@@ -22,7 +22,7 @@ struct LaunchpadInfoView: View {
                 // Kort
                 if let pad = vm.launchpad {
                     
-                    // Knappen redirigerer til map tab, og zoomer ind på det given launchpad.
+                    // Skifter til map-tab og zoomer ind på den valgte launchpad.
                     Button("View on map") {
                         mapVM.zoom(to: pad)
                         mapVM.showSheetForPad = nil // Hvis navigering sker fra sheet'et inde fra map tab, lukkes sheet'et ned, så map kommer i fokus.
@@ -30,7 +30,7 @@ struct LaunchpadInfoView: View {
                         tabVM.goToMapTab()
                     }
                     
-                    // Launchpad navn og type
+                    // Viser launchpad-navn, type, lokation, status og opsendelsesstatistik.
                     Text(pad.full_name)
                         .font(.title2)
                         .bold()
@@ -41,17 +41,14 @@ struct LaunchpadInfoView: View {
                             .padding(.horizontal)
                     }
                     
-                    // Lokation
                     Text("Location: \(pad.locality), \(pad.region)")
                         .padding(.horizontal)
                     
-                    // Status
                     if let status = pad.status {
                         Text("Status: \(status)")
                             .padding(.horizontal)
                     }
                     
-                    // Antal opsendelser
                     Text("Successful launches: \(pad.launch_successes)")
                         .padding(.horizontal)
                     
@@ -60,6 +57,7 @@ struct LaunchpadInfoView: View {
                     
                     
                 } else {
+                    // Loading indikator mens launchpad-data indlæses
                     ProgressView("Loading launchpad...")
                         .frame(maxWidth: .infinity, alignment: .center)
                 }

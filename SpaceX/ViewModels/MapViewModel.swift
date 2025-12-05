@@ -8,12 +8,12 @@
 import Foundation
 import MapKit
 
-// Denne ViewModel håndterer Map funktioner, som visning af launches for en launchpad på kort og zoom ind på en valgt launchpad på kort.
+/// Denne ViewModel håndterer Map funktioner, som visning af launches for en launchpad på kort og zoom ind på en valgt launchpad på kort.
 @MainActor
 final class MapViewModel: ObservableObject {
-    @Published var showSheetForPad: MapPadItem? = nil // Viser et sheet med alle launches knyttet til                                                           det gemte Launchpad eller Landingpad.
+    @Published var showSheetForPad: MapPadItem? = nil // Viser et sheet med alle launches knyttet til det                                                       gemte Launchpad eller Landingpad.
     
-    @Published var zoomToPad: LaunchPad? = nil // Gemt LaunchPad objekt, som bruges til at styre kortet i                                               zoom.
+    @Published var zoomToPad: LaunchPad? = nil // Sat til nil som default, da den fungerer som engangsignal                                             til UI'et.
     
    // Gemte koordinater for den valgte launchpad. Som default er regionen et overblik over USA.
     @Published var region = MKCoordinateRegion(

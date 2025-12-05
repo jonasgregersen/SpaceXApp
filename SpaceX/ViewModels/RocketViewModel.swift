@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Denne ViewModel har samme struktur som CapsuleViewModel, henter data om rocket fra launch.
+/// Samme struktur som CapsuleViewModel, afviger ved henting henter raket data
 @MainActor
 class RocketViewModel: ObservableObject {
     @Published var rocket: Rocket? = nil

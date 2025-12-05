@@ -7,7 +7,8 @@
 
 import Foundation
 
-// Custom dateformatter til visning i UI.
+/// Custom DateFormatter til visning af datoer i UI.
+/// Bruges til at formatere launch-datoer på en læsbar måde.
 extension DateFormatter {
     static let uiDate: DateFormatter = {
         let formatter = DateFormatter()

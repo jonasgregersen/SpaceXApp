@@ -8,7 +8,9 @@
 import Foundation
 import FirebaseAuth
 
-// ViewModel der håndterer authentification af brugere, og håndterer login, logud og opret bruger logik.
+/// ViewModel der håndterer authentification af brugere via Firebase fra service.
+/// Initialsieres med en service, der følger AuthServiceProtocol
+/// Dette gør ViewModelen testbar (mocking) og uafhængig af konkrete service-implementeringer.
 @MainActor
 class AuthViewModel: ObservableObject {
     @Published var user: User? = nil
@@ -19,14 +21,14 @@ class AuthViewModel: ObservableObject {
     
     private let service: AuthServiceProtocol
     
-    // Dependency Injection af service
+    /// Dependency Injection af service
     init(service: AuthServiceProtocol) {
         self.service = service
         self.user = service.currentUser
         self.isLoggedIn = user != nil
     }
     
-    // Logger brugeren ind ved hjælp af service.
+    /// Logger brugeren ind ved hjælp af service.
     func signIn(email: String, password: String) async {
         isLoading = true
         defer { isLoading = false }
@@ -40,7 +42,7 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    // Logger brugeren ud ved hjælp af service.
+    /// Logger brugeren ud ved hjælp af service.
     func signOut() {
         do {
             try service.signout()
@@ -51,7 +53,7 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    // Opretter bruger ved hjælp af service.
+    /// Opretter bruger ved hjælp af service.
     func signUp(email: String, password: String) async {
         isLoading = true
         defer { isLoading = false }

@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Model der repræsenterer en SpaceX rocket hentet fra API'et.
+/// Indeholder information som navn, type og dimensioner.
 struct Rocket: Codable, Identifiable {
     struct Dimension: Codable {
         let meters: Double?

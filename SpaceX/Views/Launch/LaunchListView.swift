@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-// Dette View håndterer listevisning af launches. Viewet er modulariseret for pålidelig genbrug, som sikrer ensartet LaunchListViews i applikationen. Indeholder en funktion for at tilføje launches til favorit ved swipe action.
+/// Modulariseret listeview til launches.
+/// Kan genbruges i hele appen med ensartet udseende og funktionalitet.
+/// Understøtter swipe-actions til at tilføje launches til favorit for indloggede brugere.
 struct LaunchListView: View {
     var launches: [Launch]
     var title: String?
@@ -18,7 +20,8 @@ struct LaunchListView: View {
     
     var body: some View {
         Group {
-            if launches.isEmpty { // Informér om tom liste.
+            // Vis tom state hvis der ikke er launches
+            if launches.isEmpty {
                 VStack {
                     Spacer()
                     Text("No launches to show.")
@@ -27,13 +30,15 @@ struct LaunchListView: View {
                     Spacer()
                 }
             } else {
-                List(launches) { // Liste over launches
+                List(launches) {
                     launch in
+                    // Navigering til detaljevisning af launch
                     NavigationLink(value: launch) {
                         LaunchRowView(launch: launch)
                     }
                     .swipeActions {
-                        if authVM.isLoggedIn { // Hvis brugeren er logget ind, kan man også swipe et launch på listen for at tilføje det til favoritter.
+                        // Tillader indloggede brugere at tilføje launches til favorit
+                        if authVM.isLoggedIn {
                             Button {
                                 Task {
                                     await userFavVM.toggleFavorite(launch.id)

@@ -7,7 +7,8 @@
 
 import Foundation
 
-// Denne ViewModels struktur indeholder både en funktion for at hente én Launch Pad, samt en funktion for at hente alle Launch Pads i API'et. Formålet er det samme som CapsuleViewModel
+/// ViewModel der, ligesom de øvrige (fx CapsuleViewModel), håndterer API-kald.
+/// Adskiller sig ved både at kunne hente ét specifikt launchpad og alle launchpads.
 @MainActor
 class LaunchPadViewModel: ObservableObject {
     @Published var launchpad: LaunchPad? = nil
@@ -19,7 +20,7 @@ class LaunchPadViewModel: ObservableObject {
         self.service = service
     }
     
-    // Indlæser et enkelt launchpad ud fra dets id.
+    /// Indlæser et enkelt launchpad ud fra dets id.
     func load(_ launchpadId: String) async {
         do {
             launchpad = try await service.fetch("launchpads/\(launchpadId)")
@@ -28,7 +29,7 @@ class LaunchPadViewModel: ObservableObject {
         }
     }
     
-    // Indlæser alle launchpads fra API'et.
+    /// Indlæser alle launchpads fra API'et.
     func loadAll() async {
         do {
             allLaunchpads = try await service.fetch("launchpads")

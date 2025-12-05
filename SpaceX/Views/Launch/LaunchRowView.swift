@@ -7,20 +7,22 @@
 
 import SwiftUI
 
-// Dette View håndterer visning af relevant information fra Launches i LaunchListView.
+/// View der viser en launch i en liste med billede, navn, dato, successtatus og favoritmarkering.
+/// Bruges primært i LaunchListView.
 struct LaunchRowView: View {
     var launch: Launch
     @EnvironmentObject private var userFavVM: UserFavoritesViewModel
     @EnvironmentObject private var authVM: AuthViewModel
     var body: some View {
         HStack {
+            // Loader patch-billedet asynkront med animation, fallback til placeholder ved fejl.
             AsyncImage(url: launch.patchImage, transaction: Transaction(animation: .easeIn)) { phase in
                 switch phase {
-                case .empty: // Hvis billedet ikke er indlæst endnu, vises et progress view
+                case .empty:
                     ProgressView()
                         .frame(width: 50, height: 50)
                     
-                case .success(let image): // Ellers vis billedet
+                case .success(let image):
                     image
                         .resizable()
                         .scaledToFill()
@@ -28,14 +30,14 @@ struct LaunchRowView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .transition(.opacity.animation(.easeIn(duration: 0.3)))
                     
-                case .failure(_): // Hvis fejl, vises et generisk billede som placeholder.
+                case .failure(_):
                     Image(systemName: "photo")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                         .foregroundStyle(.gray)
                     
-                @unknown default: // Default view for billede
+                @unknown default:
                     EmptyView()
                 }
             }
@@ -64,7 +66,8 @@ struct LaunchRowView: View {
                 
             }
             Spacer()
-            if authVM.isLoggedIn { // Hvis logget ind vises dette ikon for at fortælle om launch er favorit.
+            // Vis favoritikon hvis launch er markeret som favorit og brugeren er logget ind.
+            if authVM.isLoggedIn {
                 if userFavVM.isFavorite(launch.id) {
                     Image(systemName: "star.fill")
                         .foregroundColor(.yellow)

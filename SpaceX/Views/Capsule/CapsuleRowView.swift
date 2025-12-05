@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// Dette View håndterer relevante oplysninger for en capsule, som vises i CapsuleListView
+/// Dette View håndterer relevante oplysninger for en capsule, som vises i CapsuleListView
 struct CapsuleRowView: View {
     var capsule: Capsule
 

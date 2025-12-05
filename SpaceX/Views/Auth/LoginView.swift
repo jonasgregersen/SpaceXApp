@@ -1,6 +1,6 @@
 import SwiftUI
 
-// Dette View håndterer en login, samt bruger authViewModel til authentification og verificering af login oplysninger
+/// Dette View håndterer en login, samt bruger authViewModel til authentification og verificering af login oplysninger
 struct LoginView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var userFavVM: UserFavoritesViewModel
@@ -19,7 +19,7 @@ struct LoginView: View {
                     .font(.title.bold())
                     .foregroundColor(.white)
                 
-                // Email indtast felt
+                // Email og password felter med placeholders
                 VStack(spacing: 16) {
                     TextField("", text: $email)
                         .padding()
@@ -27,7 +27,7 @@ struct LoginView: View {
                         .cornerRadius(8)
                         .textInputAutocapitalization(.never)
                         .overlay(alignment: .leading) {
-                            if email.isEmpty { // Placeholder
+                            if email.isEmpty {
                                 Text("Email")
                                     .foregroundColor(.gray.opacity(0.7))
                                     .padding(.leading, 12)
@@ -35,13 +35,13 @@ struct LoginView: View {
                         }
 
 
-                    // Password indtast felt
+               
                     SecureField("", text: $password)
                         .padding()
                         .background(Color(.secondarySystemBackground))
                         .cornerRadius(8)
                         .overlay(alignment: .leading) {
-                            if password.isEmpty { // Placeholder
+                            if password.isEmpty {
                                 Text("Password")
                                     .foregroundColor(.gray.opacity(0.7))
                                     .padding(.leading, 12)
@@ -56,9 +56,12 @@ struct LoginView: View {
                         await authVM.signIn(email: email, password: password)
                         await userFavVM.reload() // Hvis anden bruger logger ind, skal user favorites                                   genindlæses.
                         await favLaunchVM.reload(for: userFavVM.favoriteIds) // Genindlæs favorit siden
+                        // Hvis fejl ved login vises popup, ellers fuldføres login og sheet lukker
                         if authVM.errorMessage != nil {
                             showAlert = true
-                        } // Hvis fejl ved login vises popup.
+                        } else {
+                            authVM.showLogIn = false
+                        }
                     }
                 } label: {
                     Text("Login")
@@ -82,7 +85,8 @@ struct LoginView: View {
                     .foregroundColor(.blue)
                 }
                 .font(.footnote)
-                .background( // Skal køres i baggrunden, ellers fylder navigation linket hele view'et af en eller anden grund
+                .background(
+                    /// Hidden NavigationLink, så vi kan navigere til SignUpView programmatisk uden at det blokerer i layoutet.
                     NavigationLink(
                         destination: SignUpView().environmentObject(authVM),
                         isActive: $showSignUp,
@@ -95,12 +99,14 @@ struct LoginView: View {
             .padding(.horizontal, 24)
             .padding(.top, 60)
             .background(Color.black.ignoresSafeArea())
-            .alert("Login failed", isPresented: $showAlert, actions: { // Popup besked ved login fejl
+            .alert("Login failed", isPresented: $showAlert, actions: { /// Popup besked ved login fejl
                         Button("OK", role: .cancel) { authVM.errorMessage = nil }
                     }, message: {
                         Text(authVM.errorMessage ?? "Unknown error")
                     })
-            if authVM.isLoading { // Ved klik på log in knap vises en progress view, som viser at programmet tænker, og ikke er gået i stå, da det kan tage et sekund at logge ind.
+            /// Viser overlay med ProgressView, mens login-verificering pågår.
+            /// Indikerer, at appen arbejder, så brugeren ved, at processen ikke er frosset.
+            if authVM.isLoading {
                             Color.black.opacity(0.4)
                                 .ignoresSafeArea()
 

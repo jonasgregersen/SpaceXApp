@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-// Dette View håndterer visning af relevant information for et payload.
+/// Vis detaljer om et payload, opdelt i sektioner for basic info, kunder, bane og Dragon Capsule (hvis tilgængelig).
 struct PayloadInfoView: View {
     let payload: Payload
 
     var body: some View {
         List {
-            Section("Basic Info") {
+            Section("Basic Info") { // Viser payload-navn, type, genbrug og masse
                 Text("Name: \(payload.name)")
                 Text("Type: \(payload.type)")
                 Text("Reused: \(payload.reused ? "Yes" : "No")")
@@ -23,7 +23,7 @@ struct PayloadInfoView: View {
                 }
             }
 
-            if let customers = payload.customers, !customers.isEmpty {
+            if let customers = payload.customers, !customers.isEmpty { // Liste over kunder, hvis tilgængelig
                 Section("Customers") {
                     ForEach(customers, id: \.self) { customer in
                         Text(customer)
@@ -31,13 +31,13 @@ struct PayloadInfoView: View {
                 }
             }
 
-            Section("Orbit") {
+            Section("Orbit") { // Information om payloads kredsløb
                 Text("Orbit: \(payload.orbit ?? "-")")
                 Text("Apoapsis: \(payload.apoapsis_km ?? 0, specifier: "%.0f") km")
                 Text("Periapsis: \(payload.periapsis_km ?? 0, specifier: "%.0f") km")
             }
 
-            if let dragon = payload.dragon {
+            if let dragon = payload.dragon { // Dragon-specifik info
                 Section("Dragon Capsule") {
                     Text("Capsule: \(dragon.capsule ?? "-")")
 
@@ -58,7 +58,7 @@ struct PayloadInfoView: View {
                 }
             }
         }
-        .navigationTitle(payload.name)
+        .navigationTitle(payload.name) // Sætter navigationstitel til payload-navnet
     }
 }
 

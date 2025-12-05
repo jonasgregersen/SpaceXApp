@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// Dette View håndterer visning af basale oplysninger for et launch, samt visning af patch.
+/// Dette View håndterer visning af basale oplysninger for et launch, samt visning af patch.
 struct LaunchInfoView: View {
     var launch: Launch
     var body: some View {

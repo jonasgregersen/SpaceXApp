@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// Dette View håndterer opbygning og visning af en liste over CapsuleRowView.
+/// Dette View håndterer opbygning og visning af en liste over CapsuleRowView.
 struct CapsuleListView: View {
     @EnvironmentObject private var vm: CapsuleViewModel
     var capsules: [String]

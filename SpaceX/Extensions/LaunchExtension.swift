@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Preview launch til udvikling.
+/// Preview launch til udvikling.
 extension Launch {
     static let preview: Launch = {
             let sampleLinks = Links(

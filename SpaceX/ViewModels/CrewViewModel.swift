@@ -8,21 +8,22 @@
 import Foundation
 import SwiftUI
 
-// Samme struktur som CapsuleViewModel, bare for CrewMember objekter
+/// Samme struktur som CapsuleViewModel, loader CrewMember objekter
+/// DI som i andre ViewModels — gør klassen testbar og uafhængig af API-implementeringen.
 @MainActor
 class CrewViewModel: ObservableObject {
-    @Published var crewMembers: [(CrewMember, String)] = [] // (medlem, rolle)
+    @Published var crewMembers: [(CrewMember, String)] = [] /// (medlem, rolle)
     
     var service: APIServiceProtocol
     
-    // Dependency Injection
+    /// Dependency Injection
     init(service: APIServiceProtocol) {
         self.service = service
     }
     
-    // Henter alle crew members fra et crew i API'et.
+    /// Henter alle crew members fra et crew i API'et.
     func load(_ crewList: [Crew]) async {
-        var members: [(CrewMember, String)] = [] // Arraylist med crewmembers, samt deres rolle.
+        var members: [(CrewMember, String)] = [] /// Arraylist med crewmembers, samt deres rolle.
         
         for crew in crewList {
             do {

@@ -8,19 +8,21 @@
 import Foundation
 import SwiftUI
 
-// ViewModel der håndterer asynkron API kald, og opbevarer resultatet til brug.
+/// ViewModel der håndterer indlæsning af SpaceX capsules via et asynkront API-kald.
+/// Initialiseres med en service, der følger APIServiceProtocol.
 @MainActor
 class CapsuleViewModel: ObservableObject {
     @Published var capsules: [Capsule] = []
     
     var service: APIServiceProtocol
     
-    // Dependency Injection af service
+    /// Dependency Injection af service
     init(service: APIServiceProtocol) {
         self.service = service
     }
     
-    // Indlæser alle capsules med capsuleID listen fra Launch objekt til .
+    /// Loader alle capsules ud fra en liste af capsuleID’er.
+    /// Henter hver capsule individuelt fra API’et og opdaterer capsules når alle kald er færdige.
     func load(_ capsuleList: [String]) async {
         var localCapsules: [Capsule] = []
         for capsule in capsuleList {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Denne ViewModel har samme struktur som CapsuleViewModel, henter PayLoad data for et launch.
+/// Denne ViewModel har samme struktur som CapsuleViewModel, henter PayLoad data for et launch.
 @MainActor
 final class PayloadViewModel: ObservableObject {
     @Published var payloads: [Payload] = []

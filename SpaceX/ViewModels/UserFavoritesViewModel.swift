@@ -9,7 +9,7 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
-// Denen ViewModel håndterer favorit laucnhes i Firestore, samt storer ID'er på launches markeret som favorit.
+/// Denne ViewModel håndterer favorit launches i Firestore, samt storer ID'er på launches markeret som favorit.
 @MainActor
 final class UserFavoritesViewModel: ObservableObject {
     @Published var favoriteIds: [String] = []
@@ -24,7 +24,8 @@ final class UserFavoritesViewModel: ObservableObject {
     
     func loadFavorites() async {
         do {
-            guard !hasLoaded else { return } // Hvis allerede indlæst og ikke opdateret, kør ikke.
+            // Hvis allerede indlæst og ikke opdateret, kør ikke.
+            guard !hasLoaded else { return }
             let ids = try await service.loadFavorites()
             favoriteIds = ids
             hasLoaded = true
@@ -47,7 +48,8 @@ final class UserFavoritesViewModel: ObservableObject {
             favoriteIds.append(id)
             try? await service.addFavorite(id)
         }
-        hasLoaded = false // Angiver favorites som ikke indlæst, så de kan indlæses igen.
+        // Angiver favorites som ikke indlæst, så de kan indlæses igen.
+        hasLoaded = false
     }
     
     func isFavorite(_ id: String) -> Bool {

@@ -7,10 +7,12 @@
 
 import SwiftUI
 import FirebaseAuth
-// Dette View initialiserer alle ViewModels, og injicerer dem ind i MainView, så de kan bruges globalt på applikationen.
+
+/// Initialiserer alle ViewModels med deres services og injicerer dem som environment objects i MainView.
+/// Dette sikrer global tilgængelighed af ViewModels i hele applikationen.
 struct ContentView: View {
     
-    // Oprettelse af alle ViewModeller med service injiceret.
+    // Opretter og initialiserer ViewModels med dependency injection
     @StateObject private var authVM = AuthViewModel(service: AuthService())
     @StateObject private var capsVM = CapsuleViewModel(service: APIService.shared)
     @StateObject private var crewVM = CrewViewModel(service: APIService.shared)
@@ -26,7 +28,7 @@ struct ContentView: View {
 
     
     var body: some View {
-        // Videresend som environment objekter til MainView, så de kan tilgåes globalt.
+        // Injectorer ViewModels som environment objects, så de kan tilgås globalt i MainView og underliggende Views
             MainView()
                 .environmentObject(authVM)
                 .environmentObject(capsVM)

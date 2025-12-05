@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Model der repræsenterer en SpaceX launchpad hentet fra API'et.
+/// Indeholder information om pad navn, lokation, koordinater og launches.
 struct LaunchPad: Decodable, Identifiable, Equatable {
     let id: String
     let name: String

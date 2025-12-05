@@ -9,6 +9,8 @@ import Foundation
 import FirebaseFirestore
 import FirebaseAuth
 
+/// UserFavoritesService håndterer indlæsning, tilføjelse og fjernelse af favorit-launches for den aktuelle bruger via Firestore.
+/// Implementerer UserFavoritesServiceProtocol, så ViewModels kan arbejde med favoritter uden at kende Firestore-detaljer.
 class UserFavoritesService: UserFavoritesServiceProtocol {
     private let db = Firestore.firestore()
     

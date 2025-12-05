@@ -8,7 +8,7 @@
 import SwiftUI
 import MapKit
 
-// Bruges til at skifte imellem LaunchListView for launchpads eller landingpads, samt visning på kortet.
+/// Repræsenterer et kort-element (launchpad eller landingpad) med id, navn og koordinater.
 enum MapPadItem: Identifiable {
     case launch(LaunchPad)
     case landing(LandingPad)
@@ -42,7 +42,8 @@ enum MapPadItem: Identifiable {
     }
 }
 
-// Dette View håndterer visning af kort og dets elementer. Elementerne på kortet bestemmes med et Picker element, som skifter imellem launch- og landingpads. Kortets elementer er klikbare, og viser en liste over de launches som er tilknyttet det valgte element.
+/// Visning af kort med launchpads og landingpads.
+/// Picker skifter mellem typer, klik på pin viser tilhørende launches i sheet.
 struct MapView: View {
     var launchpads: [LaunchPad]
     var landingpads: [LandingPad]
@@ -52,6 +53,7 @@ struct MapView: View {
     
     var body: some View {
         VStack {
+            // Vælger mellem launchpads og landingpads
             Picker("Pads", selection: $tabVM.showingLandingPadsTab) {
                 Text("Launch Pads").tag(false)
                 Text("Landing Pads").tag(true)
@@ -62,8 +64,9 @@ struct MapView: View {
             if !tabVM.showingLandingPadsTab {
                 Map(coordinateRegion: $mapVM.region, annotationItems: launchpads, annotationContent: { pad in
                     MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: pad.latitude, longitude: pad.longitude)) {
+                        // Klik på pin åbner sheet med launches for den valgte pad
                         Button {
-                            mapVM.showSheetForPad = .launch(pad) // Vis sheet for en given pad, uanset om det er launchpad eller landingpad.
+                            mapVM.showSheetForPad = .launch(pad)
                         } label: {
                             VStack {
                                 Image(systemName: "mappin.circle.fill")
@@ -95,7 +98,7 @@ struct MapView: View {
                 })
             }
         }
-        // Sheet visning for launches knyttet til kort elementet.
+        // Viser liste over launches tilknyttet den valgte pad
         .sheet(item: $mapVM.showSheetForPad) { pad in
             let padLaunches: [Launch] = {
                     switch pad {
@@ -112,7 +115,7 @@ struct MapView: View {
                     }
             }
         }
-        // En OnChangeListener, som lytter på ændringer af det valgte kort element
+        // Zoomer kortet ind, når zoomToPad ændres
         .onChange(of: mapVM.zoomToPad) { pad in
             guard let pad = pad else {return}
             mapVM.region = MKCoordinateRegion(

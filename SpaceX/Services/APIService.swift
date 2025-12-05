@@ -7,9 +7,11 @@
 
 import Foundation
 
+/// APIService håndterer alle asynkrone HTTP kald til SpaceX API'et.
+/// Indeholder generiske fetch metoder og en specialiseret LaunchService.
 final class APIService: APIServiceProtocol {
     
-    // Singleton APIService instans, sikrer at der kun findes én instans.
+    // Singleton instans, sikrer at der kun findes én instans af APIService
     static let shared = APIService()
     
     // Generisk fetch metode for endpoints til hardcoded url for API'en.
@@ -30,13 +32,17 @@ final class APIService: APIServiceProtocol {
         return try decoder.decode(T.self, from: data)
     }
     
-    // Specialiseret APIService til hent af launches. Jeg vælger at specialisere den, da dens URL afviger fra den generiske metode, samt der er forskellige metoder som er nødvendige for at launches virker.
+    /// Specialiseret service til håndtering af launches
+    /// Indeholder metoder som ikke passer ind i den generiske fetch
     struct LaunchService: LaunchServiceProtocol {
         private let launchUrl = URL(string:"https://api.spacexdata.com/v5/launches")!
         
+        // Hent alle launches
         func getAllLaunches() async throws -> [Launch] {
             try await APIService.shared.fetch(launchUrl)
         }
+        
+        // Konverter en liste af id'er til en liste af launches
         func idsToLaunchArray(_ ids: [String]) async throws -> [Launch] {
             var launchArray: [Launch] = []
             
@@ -46,6 +52,8 @@ final class APIService: APIServiceProtocol {
             
             return launchArray
         }
+        
+        // Hent en launch ud fra ID
         func getLaunchById(_ id: String) async throws -> Launch {
             let launchURL = URL(string: "https://api.spacexdata.com/v5/launches/\(id)")!
             return try await APIService.shared.fetch(launchURL)

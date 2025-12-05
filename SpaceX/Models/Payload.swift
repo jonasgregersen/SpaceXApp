@@ -6,7 +6,10 @@
 //
 import Foundation
 
+/// Model der repræsenterer en payload hentet fra SpaceX API'et.
+/// Indeholder information om navn, type, masse, baneparametre og Dragon-kapseldata (hvis relevant).
 struct Payload: Decodable, Identifiable {
+    /// Understruktur for Dragon-kapsel relaterede data
     struct Dragon: Decodable {
         let capsule: String?
         let mass_returned_kg: Double?

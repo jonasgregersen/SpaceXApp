@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Model der repræsenterer en landing pad hentet fra SpaceX API'et.
+/// Indeholder information om pad navn, type, lokation, status, antal landinger og tilknyttede launches.
 struct LandingPad: Identifiable, Decodable, Equatable {
     let id: String
     let name: String

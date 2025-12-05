@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Model, der repræsenterer en SpaceX kapsel hentet fra API'et.
+/// Bruges til at vise information om kapsler, fx i UI eller til filtrering af launches.
 struct Capsule: Decodable, Hashable, Identifiable {
     var id: String
     var reuse_count: Int?

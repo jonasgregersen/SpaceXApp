@@ -30,7 +30,7 @@ struct SignUpView: View {
                                     await authVM.signUp(email: email, password: password)
                                     if authVM.errorMessage != nil {
                                         showAlert = true
-                                    } // Fejl besked popup ved ugyldig signup eller fejl.
+                                    }
                                 }
                             } label: {
                                 Text("Sign up")
@@ -41,7 +41,7 @@ struct SignUpView: View {
                 }
                     
             }
-                if authVM.isLoading { // Da det også tager et sekund at sign up, skal progress view vises undervejs.
+                if authVM.isLoading { 
                     Color.black.opacity(0.4)
                         .ignoresSafeArea()
                     

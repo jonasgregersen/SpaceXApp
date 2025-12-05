@@ -7,7 +7,8 @@
 
 import Foundation
 
-// Denne ViewModel afviger fra de andre ViewModels med sin indlæsningmetode, da den henter alle landing pad objekter i API'et, dog er formålet det samme som CapsuleViewModel.
+/// ViewModel der ligner de øvrige (fx CapsuleViewModel), men adskiller sig ved at indlæse
+/// alle landing pads i ét API-kald i stedet for at hente dem enkeltvis.
 @MainActor
 final class LandingPadViewModel: ObservableObject {
     @Published var allLandingPads: [LandingPad] = []
@@ -18,7 +19,7 @@ final class LandingPadViewModel: ObservableObject {
         self.service = service
     }
     
-    // Indlæser alle landingpads i API'et.
+    /// Indlæser alle landingpads i API'et.
     func loadAll() async {
         do {
             allLandingPads = try await service.fetch("landpads")

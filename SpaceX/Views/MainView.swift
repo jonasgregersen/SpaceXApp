@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-// Dette View håndterer visning af forskellige tabs i applikationen. Dets formål er også at initialisere ViewModels med data, så det kan blive vist i SubViews.
+/// Hovedview med tab-navigation mellem Map, Launches og Favorites.
+/// Initialiserer og leverer ViewModels til underliggende Views.
 struct MainView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var favVM: UserFavoritesViewModel
@@ -18,21 +19,19 @@ struct MainView: View {
     @EnvironmentObject var favLaunchVM: FavoriteLaunchesViewModel
     @EnvironmentObject var launchVM: LaunchViewModel
     
-    
-    @State private var showLogIn: Bool = false // Bruges til login sheet view.
-    
     var body: some View {
-        // Selection her bruges til at kunne styre hvilket tab der vises fra en ViewModel.
+        // TabView med navigation og dynamisk login-sheet
         TabView(selection: $tabVM.selectedTab) {
             NavigationStack {
                 MapView(launchpads: launchpadVM.allLaunchpads, landingpads: landpadVM.allLandingPads)
-                    .sheet(isPresented: $showLogIn) {
+                // Sheet til login, vises når brugeren trykker "Log in"
+                    .sheet(isPresented: $authVM.showLogIn) {
                         NavigationStack {
                             LoginView()
                                 .toolbar {
                                     ToolbarItem(placement: .topBarLeading) {
                                         Button("Back") {
-                                            showLogIn = false
+                                            authVM.showLogIn = false
                                         }
                                     }
                                 }
@@ -40,6 +39,7 @@ struct MainView: View {
                     }
                     .navigationTitle("Pad Overview")
                     .toolbar {
+                        // Viser Log in/Sign out knap afhængigt af login-status
                         ToolbarItem(placement: .topBarTrailing) {
                             if authVM.isLoggedIn {
                                 Button("Sign out") {
@@ -47,13 +47,14 @@ struct MainView: View {
                                 }
                             } else {
                                 Button("Log in") {
-                                    showLogIn = true
+                                    authVM.showLogIn = true
                                 }
                             }
                         }
                     }
                     .environmentObject(mapVM)
             }
+            // Indlæs data for map (launchpads og landingpads)
             .task {
                 await launchpadVM.loadAll()
                 await landpadVM.loadAll()
@@ -73,7 +74,7 @@ struct MainView: View {
                                 }
                             } else {
                                 Button("Log in") {
-                                    showLogIn = true
+                                    authVM.showLogIn = true
                                 }
                             }
                             
@@ -82,16 +83,18 @@ struct MainView: View {
                     .environmentObject(mapVM)
                     .onChange(of: authVM.isLoggedIn) { isLoggedIn in
                         if isLoggedIn {
-                            showLogIn = false
+                            authVM.showLogIn = false
                         }
                     }
             }
             .tabItem { Label("Launches", systemImage: "paperplane.fill") }
             .tag(1)
+            // Indlæs alle launches
             .task {
                 await launchVM.load()
             }
-            if authVM.isLoggedIn { // Favorit tab kan kun vises, hvis logget ind.
+            // Favorit-tab vises kun for indloggede brugere
+            if authVM.isLoggedIn {
                 NavigationStack {
                     FavoriteLaunchesView()
                         .navigationTitle("Favorites")
