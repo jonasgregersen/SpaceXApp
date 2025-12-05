@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 
+// Bruges til at skifte imellem LaunchListView for launchpads eller landingpads, samt visning på kortet.
 enum MapPadItem: Identifiable {
     case launch(LaunchPad)
     case landing(LandingPad)
@@ -61,7 +62,7 @@ struct MapView: View {
                 Map(coordinateRegion: $mapVM.region, annotationItems: launchpads, annotationContent: { pad in
                     MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: pad.latitude, longitude: pad.longitude)) {
                         Button {
-                            mapVM.showSheetForPad = .launch(pad)
+                            mapVM.showSheetForPad = .launch(pad) // Vis sheet for en given pad, uanset om det er launchpad eller landingpad.
                         } label: {
                             VStack {
                                 Image(systemName: "mappin.circle.fill")

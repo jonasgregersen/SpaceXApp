@@ -17,6 +17,7 @@ final class PayloadViewModel: ObservableObject {
         self.service = service
     }
     
+    // Henter en liste af payloads fra payloadlist i launch.
     func load(_ payloadList: [String]) async {
         var localPayloads: [Payload] = []
         

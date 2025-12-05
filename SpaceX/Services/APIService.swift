@@ -12,11 +12,13 @@ final class APIService: APIServiceProtocol {
     // Singleton APIService instans, sikrer at der kun findes én instans.
     static let shared = APIService()
     
+    // Generisk fetch metode for endpoints til hardcoded url for API'en.
     func fetch<T: Decodable>(_ endpoint: String) async throws -> T {
         let url = URL(string: "https://api.spacexdata.com/v4/\(endpoint)")!
         return try await fetch(url)
     }
     
+    // Generisk fetch metode for en given URL med dateDecoding.
     func fetch<T: Decodable>(_ url: URL) async throws -> T {
         let (data, response) = try await URLSession.shared.data(from: url)
         guard let httpResponse = response as? HTTPURLResponse,
@@ -28,10 +30,11 @@ final class APIService: APIServiceProtocol {
         return try decoder.decode(T.self, from: data)
     }
     
+    // Specialiseret APIService til hent af launches. Jeg vælger at specialisere den, da dens URL afviger fra den generiske metode, samt der er forskellige metoder som er nødvendige for at launches virker.
     struct LaunchService: LaunchServiceProtocol {
         private let launchUrl = URL(string:"https://api.spacexdata.com/v5/launches")!
         
-        func getLatestLaunches() async throws -> [Launch] {
+        func getAllLaunches() async throws -> [Launch] {
             try await APIService.shared.fetch(launchUrl)
         }
         func idsToLaunchArray(_ ids: [String]) async throws -> [Launch] {

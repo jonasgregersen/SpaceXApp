@@ -21,10 +21,11 @@ struct LaunchpadInfoView: View {
                 // Kort
                 if let pad = vm.launchpad {
                     
+                    // Knappen redirigerer til map tab, og zoomer ind på det given launchpad.
                     Button("View on map") {
                         mapVM.zoom(to: pad)
-                        mapVM.showSheetForPad = nil
-                        tabVM.showingLandingPadsTab = false
+                        mapVM.showSheetForPad = nil // Hvis navigering sker fra sheet'et inde fra map tab, lukkes sheet'et ned, så map kommer i fokus.
+                        tabVM.showingLandingPadsTab = false // Tvinger map picker til at vise launchpads, så vi ikke zoomer ind på et tomt sted under landingpads.
                         tabVM.goToMapTab()
                     }
                     

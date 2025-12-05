@@ -14,12 +14,14 @@ class CrewViewModel: ObservableObject {
     
     var service: APIServiceProtocol
     
+    // Dependency Injection
     init(service: APIServiceProtocol) {
         self.service = service
     }
     
+    // Henter alle crew members fra et crew i API'et.
     func load(_ crewList: [Crew]) async {
-        var members: [(CrewMember, String)] = []
+        var members: [(CrewMember, String)] = [] // Arraylist med crewmembers, samt deres rolle.
         
         for crew in crewList {
             do {

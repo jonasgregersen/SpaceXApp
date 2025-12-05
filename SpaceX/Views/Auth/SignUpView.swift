@@ -16,19 +16,20 @@ struct SignUpView: View {
             ZStack {
                 NavigationStack {
                 VStack {
+                    // Titel
                     Text("Sign up")
                     Form {
-                        Section {
+                        Section { // Input felter
                             TextField("Email", text: $email)
                             SecureField("Password", text: $password)
                         }
-                        Section {
+                        Section { // Sign up knap.
                             Button {
                                 Task {
                                     await authVM.signUp(email: email, password: password)
                                     if authVM.errorMessage != nil {
                                         showAlert = true
-                                    }
+                                    } // Fejl besked popup ved ugyldig signup eller fejl.
                                 }
                             } label: {
                                 Text("Sign up")
@@ -39,7 +40,7 @@ struct SignUpView: View {
                 }
                     
             }
-                if authVM.isLoading {
+                if authVM.isLoading { // Da det også tager et sekund at sign up, skal progress view vises undervejs.
                     Color.black.opacity(0.4)
                         .ignoresSafeArea()
                     

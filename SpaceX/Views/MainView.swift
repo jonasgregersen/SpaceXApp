@@ -18,12 +18,25 @@ struct MainView: View {
     @EnvironmentObject var launchVM: LaunchViewModel
     
     
-    @State private var showLogIn: Bool = false
+    @State private var showLogIn: Bool = false // Bruges til login sheet view.
     
     var body: some View {
+        // Selection her bruges til at kunne styre hvilket tab der vises fra en ViewModel.
         TabView(selection: $tabVM.selectedTab) {
             NavigationStack {
                 MapView(launchpads: launchpadVM.allLaunchpads, landingpads: landpadVM.allLandingPads)
+                    .sheet(isPresented: $showLogIn) {
+                        NavigationStack {
+                            LoginView()
+                                .toolbar {
+                                    ToolbarItem(placement: .topBarLeading) {
+                                        Button("Back") {
+                                            showLogIn = false
+                                        }
+                                    }
+                                }
+                        }
+                    }
                     .navigationTitle("Pad Overview")
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
@@ -47,6 +60,7 @@ struct MainView: View {
             .tabItem { Label("Map", systemImage: "map")}
             .tag(0)
             
+            // Listview over alle launches
             NavigationStack {
                 AllLaunchesView()
                     .navigationTitle("Launches")
@@ -65,18 +79,6 @@ struct MainView: View {
                         }
                     }
                     .environmentObject(mapVM)
-                    .sheet(isPresented: $showLogIn) {
-                        NavigationStack {
-                            LoginView()
-                                .toolbar {
-                                    ToolbarItem(placement: .topBarLeading) {
-                                        Button("Back") {
-                                            showLogIn = false
-                                        }
-                                    }
-                                }
-                        }
-                    }
                     .onChange(of: authVM.isLoggedIn) { isLoggedIn in
                         if isLoggedIn {
                             showLogIn = false
@@ -88,7 +90,7 @@ struct MainView: View {
             .task {
                 await launchVM.load()
             }
-            if authVM.isLoggedIn {
+            if authVM.isLoggedIn { // Favorit tab kan kun vises, hvis logget ind.
                 NavigationStack {
                     FavoriteLaunchesView()
                         .navigationTitle("Favorites")
@@ -104,6 +106,7 @@ struct MainView: View {
                 .tabItem { Label("Favorites", systemImage: "star.fill") }
                 .tag(2)
             }
+            
         }
     }
 }

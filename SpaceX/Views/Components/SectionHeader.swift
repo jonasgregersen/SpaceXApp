@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SectionHeader: View {
+struct SectionHeader: View { // Section header bliver brugt til tydelig section fordeling i launchDetailView.
     let title: String
     var body: some View {
         HStack {

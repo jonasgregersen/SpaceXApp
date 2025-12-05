@@ -27,7 +27,7 @@ struct CapsuleListView: View {
         }
         .padding(.horizontal)
         .task {
-            await vm.load(capsules)
+            await vm.load(capsules) // Indlæs launch capsules ved opstart af view
         }
     }
 }

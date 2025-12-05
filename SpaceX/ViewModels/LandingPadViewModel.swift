@@ -17,6 +17,7 @@ final class LandingPadViewModel: ObservableObject {
         self.service = service
     }
     
+    // Indlæser alle landingpads i API'et.
     func loadAll() async {
         do {
             allLandingPads = try await service.fetch("landpads")

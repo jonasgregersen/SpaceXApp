@@ -23,7 +23,7 @@ final class UserFavoritesViewModel: ObservableObject {
     
     func loadFavorites() async {
         do {
-            guard !hasLoaded else { return }
+            guard !hasLoaded else { return } // Hvis allerede indlæst og ikke opdateret, kør ikke.
             let ids = try await service.loadFavorites()
             favoriteIds = ids
             hasLoaded = true
@@ -32,6 +32,12 @@ final class UserFavoritesViewModel: ObservableObject {
         }
     }
     
+    func reload() async {
+        hasLoaded = false
+        await loadFavorites()
+    }
+    
+    // Genbrug samme favorit knap til at tilføje og fjerne fra favoritter.
     func toggleFavorite(_ id: String) async {
         if favoriteIds.contains(id) {
             favoriteIds.removeAll { $0 == id }
@@ -40,7 +46,7 @@ final class UserFavoritesViewModel: ObservableObject {
             favoriteIds.append(id)
             try? await service.addFavorite(id)
         }
-        hasLoaded = false
+        hasLoaded = false // Angiver favorites som ikke indlæst, så de kan indlæses igen.
     }
     
     func isFavorite(_ id: String) -> Bool {

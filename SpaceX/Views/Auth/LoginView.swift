@@ -2,6 +2,8 @@ import SwiftUI
 
 struct LoginView: View {
     @EnvironmentObject var authVM: AuthViewModel
+    @EnvironmentObject var userFavVM: UserFavoritesViewModel
+    @EnvironmentObject var favLaunchVM: FavoriteLaunchesViewModel
     @State private var email = ""
     @State private var password = ""
     @State private var showSignUp = false
@@ -11,11 +13,12 @@ struct LoginView: View {
         ZStack {
             VStack(spacing: 24) {
                 
-
+                // Titel
                 Text("SpaceX Login")
                     .font(.title.bold())
                     .foregroundColor(.white)
                 
+                // Email indtast felt
                 VStack(spacing: 16) {
                     TextField("", text: $email)
                         .padding()
@@ -23,7 +26,7 @@ struct LoginView: View {
                         .cornerRadius(8)
                         .textInputAutocapitalization(.never)
                         .overlay(alignment: .leading) {
-                            if email.isEmpty {
+                            if email.isEmpty { // Placeholder
                                 Text("Email")
                                     .foregroundColor(.gray.opacity(0.7))
                                     .padding(.leading, 12)
@@ -31,12 +34,13 @@ struct LoginView: View {
                         }
 
 
+                    // Password indtast felt
                     SecureField("", text: $password)
                         .padding()
                         .background(Color(.secondarySystemBackground))
                         .cornerRadius(8)
                         .overlay(alignment: .leading) {
-                            if password.isEmpty {
+                            if password.isEmpty { // Placeholder
                                 Text("Password")
                                     .foregroundColor(.gray.opacity(0.7))
                                     .padding(.leading, 12)
@@ -45,12 +49,15 @@ struct LoginView: View {
 
                 }
                 
+                // Login knap
                 Button {
                     Task {
                         await authVM.signIn(email: email, password: password)
+                        await userFavVM.reload() // Hvis anden bruger logger ind, skal user favorites                                   genindlæses.
+                        await favLaunchVM.reload(for: userFavVM.favoriteIds) // Genindlæs favorit siden
                         if authVM.errorMessage != nil {
                             showAlert = true
-                        }
+                        } // Hvis fejl ved login vises popup.
                     }
                 } label: {
                     Text("Login")
@@ -63,6 +70,7 @@ struct LoginView: View {
                 }
                 .padding(.top, 4)
                 
+                // Link til sign up siden.
                 HStack {
                     Text("Don't have an account?")
                         .foregroundColor(.gray)
@@ -73,7 +81,7 @@ struct LoginView: View {
                     .foregroundColor(.blue)
                 }
                 .font(.footnote)
-                .background(
+                .background( // Skal køres i baggrunden, ellers fylder navigation linket hele view'et af en eller anden grund
                     NavigationLink(
                         destination: SignUpView().environmentObject(authVM),
                         isActive: $showSignUp,
@@ -86,12 +94,12 @@ struct LoginView: View {
             .padding(.horizontal, 24)
             .padding(.top, 60)
             .background(Color.black.ignoresSafeArea())
-            .alert("Login failed", isPresented: $showAlert, actions: {
+            .alert("Login failed", isPresented: $showAlert, actions: { // Popup besked ved login fejl
                         Button("OK", role: .cancel) { authVM.errorMessage = nil }
                     }, message: {
                         Text(authVM.errorMessage ?? "Unknown error")
                     })
-            if authVM.isLoading {
+            if authVM.isLoading { // Ved klik på log in knap vises en progress view, som viser at programmet tænker, og ikke er gået i stå, da det kan tage et sekund at logge ind.
                             Color.black.opacity(0.4)
                                 .ignoresSafeArea()
 

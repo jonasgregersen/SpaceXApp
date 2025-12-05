@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LaunchListView: View {
+struct LaunchListView: View { // Genbruglig view med liste over launches.
     var launches: [Launch]
     var title: String?
     @State private var path = NavigationPath()
@@ -18,7 +18,7 @@ struct LaunchListView: View {
     
     var body: some View {
         Group {
-            if launches.isEmpty {
+            if launches.isEmpty { // Informér om tom liste.
                 VStack {
                     Spacer()
                     Text("No launches to show.")
@@ -27,18 +27,17 @@ struct LaunchListView: View {
                     Spacer()
                 }
             } else {
-                List(launches) {
+                List(launches) { // Liste over launches
                     launch in
                     NavigationLink(value: launch) {
                         LaunchRowView(launch: launch)
                     }
                     .swipeActions {
-                        if authVM.isLoggedIn {
+                        if authVM.isLoggedIn { // Hvis brugeren er logget ind, kan man også swipe et launch på listen for at tilføje det til favoritter.
                             Button {
                                 Task {
                                     await userFavVM.toggleFavorite(launch.id)
-                                    favLaunchVM.reload()
-                                    await favLaunchVM.loadLaunches(for: userFavVM.favoriteIds)
+                                    await favLaunchVM.reload(for: userFavVM.favoriteIds)
                                     
                                 }
                             } label: {

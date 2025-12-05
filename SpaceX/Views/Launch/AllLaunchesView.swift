@@ -17,7 +17,7 @@ struct AllLaunchesView: View {
             LaunchListView(launches: launchVM.launches, title: "All Launches")
                 .onAppear {
                     Task {
-                        await launchVM.load()
+                        await launchVM.load() // Load alle launches og injicere dem i launchlistview.
                     }
                 }
                 .overlay {
@@ -27,7 +27,7 @@ struct AllLaunchesView: View {
                 }
                 .refreshable {
                     await launchVM.reload()
-                }
+                } // Træk listen ned for at genindlæse launches.
         }
     }
 }

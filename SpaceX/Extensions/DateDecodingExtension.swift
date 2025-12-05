@@ -13,7 +13,7 @@ extension JSONDecoder.DateDecodingStrategy {
         let container = try decoder.singleValueContainer()
         let dateStr = try container.decode(String.self)
 
-        struct Static {
+        struct Static { // Formatterer UTC dato med fractional seconds.
             static let formatter: ISO8601DateFormatter = {
                 let f = ISO8601DateFormatter()
                 f.formatOptions = [.withInternetDateTime, .withFractionalSeconds]

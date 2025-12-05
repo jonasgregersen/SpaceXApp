@@ -18,6 +18,7 @@ class LaunchPadViewModel: ObservableObject {
         self.service = service
     }
     
+    // Indlæser et enkelt launchpad ud fra dets id.
     func load(_ launchpadId: String) async {
         do {
             launchpad = try await service.fetch("launchpads/\(launchpadId)")
@@ -25,6 +26,8 @@ class LaunchPadViewModel: ObservableObject {
             print("Der skete en fejl ved hentning af launchpad: \(error.localizedDescription)")
         }
     }
+    
+    // Indlæser alle launchpads fra API'et.
     func loadAll() async {
         do {
             allLaunchpads = try await service.fetch("launchpads")

@@ -15,11 +15,11 @@ struct LaunchRowView: View {
         HStack {
             AsyncImage(url: launch.patchImage, transaction: Transaction(animation: .easeIn)) { phase in
                 switch phase {
-                case .empty:
+                case .empty: // Hvis billedet ikke er indlæst endnu, vises et progress view
                     ProgressView()
                         .frame(width: 50, height: 50)
                     
-                case .success(let image):
+                case .success(let image): // Ellers vis billedet
                     image
                         .resizable()
                         .scaledToFill()
@@ -27,14 +27,14 @@ struct LaunchRowView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .transition(.opacity.animation(.easeIn(duration: 0.3)))
                     
-                case .failure(_):
+                case .failure(_): // Hvis fejl, vises et generisk billede som placeholder.
                     Image(systemName: "photo")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                         .foregroundStyle(.gray)
                     
-                @unknown default:
+                @unknown default: // Default view for billede
                     EmptyView()
                 }
             }
@@ -63,7 +63,7 @@ struct LaunchRowView: View {
                 
             }
             Spacer()
-            if authVM.isLoggedIn {
+            if authVM.isLoggedIn { // Hvis logget ind vises dette ikon for at fortælle om launch er favorit.
                 if userFavVM.isFavorite(launch.id) {
                     Image(systemName: "star.fill")
                         .foregroundColor(.yellow)

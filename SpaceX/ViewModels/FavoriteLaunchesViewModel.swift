@@ -21,13 +21,13 @@ final class FavoriteLaunchesViewModel: ObservableObject {
     }
     
     func loadLaunches(for ids: [String]) async {
-        guard !hasLoaded else { return }
+        guard !hasLoaded else { return } // Hvis favorit launches er indlæst i forvejen uden ændringer, skal                                    de ikke læses ind igen.
         isLoading = true
-        defer { isLoading = false }
+        defer { isLoading = false } // Køres efter metoden er færdigkørt.
         var launches: [Launch]
         do {
             launches = try await self.launchService.idsToLaunchArray(ids)
-            launches = launches.sorted { $0.dateUTC > $1.dateUTC }
+            launches = launches.sorted { $0.dateUTC > $1.dateUTC } // Sorterer launches efter dato, nyeste                                                          først.
             favoriteLaunches = launches
             hasLoaded = true
         } catch {
@@ -35,8 +35,9 @@ final class FavoriteLaunchesViewModel: ObservableObject {
         }
     }
     
-    func reload() {
+    func reload(for ids: [String]) async {
         hasLoaded = false
+        await loadLaunches(for: ids)
     }
 }
 

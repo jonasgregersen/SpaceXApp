@@ -19,7 +19,7 @@ class CapsuleViewModel: ObservableObject {
         self.service = service
     }
     
-    // Indlæser alle capsules med capsuleID listen fra Launch objekt.
+    // Indlæser alle capsules med capsuleID listen fra Launch objekt til .
     func load(_ capsuleList: [String]) async {
         var localCapsules: [Capsule] = []
         for capsule in capsuleList {

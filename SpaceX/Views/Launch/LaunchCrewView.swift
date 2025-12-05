@@ -13,7 +13,7 @@ struct LaunchCrewView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            if !vm.crewMembers.isEmpty {
+            if !vm.crewMembers.isEmpty { // Vis kun hvis der er crew members.
                 LazyVStack(spacing: 10) {
                     ForEach(vm.crewMembers, id: \.0.id) { member, role in
                         HStack(spacing: 12) {

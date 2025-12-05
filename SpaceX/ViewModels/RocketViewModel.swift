@@ -17,6 +17,7 @@ class RocketViewModel: ObservableObject {
         self.service = service
     }
     
+    // Henter raketten, som er knyttet til launch.
     func load(_ rocketId: String) async {
         do {
             rocket = try await service.fetch("rockets/\(rocketId)")

@@ -8,6 +8,8 @@
 import SwiftUI
 import FirebaseAuth
 struct ContentView: View {
+    
+    // Oprettelse af alle ViewModeller med service injiceret.
     @StateObject private var authVM = AuthViewModel(service: AuthService())
     @StateObject private var capsVM = CapsuleViewModel(service: APIService.shared)
     @StateObject private var crewVM = CrewViewModel(service: APIService.shared)
@@ -23,6 +25,7 @@ struct ContentView: View {
 
     
     var body: some View {
+        // Videresend som environment objekter til MainView, så de kan tilgåes globalt.
             MainView()
                 .environmentObject(authVM)
                 .environmentObject(capsVM)

@@ -18,13 +18,14 @@ final class LaunchViewModel: ObservableObject {
         self.service = service
     }
     
+    // Henter alle launches fra API'et og sætter launches variabel til de launches.
     func load() async {
-        guard !hasLoaded else { return }
+        guard !hasLoaded else { return } // Hvis launches er loaded, kør ikke metoden.
         isLoading = true
-        defer {isLoading = false}
+        defer {isLoading = false} // Køres efter metoden er færdigkørt
         
         do {
-            let data = try await service.getLatestLaunches()
+            let data = try await service.getAllLaunches()
             print("Hentede \(data.count) launches.")
             launches = data.sorted { $0.dateUTC > $1.dateUTC }
             hasLoaded = true
@@ -32,6 +33,8 @@ final class LaunchViewModel: ObservableObject {
             print("Kunne ikke hente launch oplysninger: \(error.localizedDescription)")
         }
     }
+    
+    // Genindlæsning af launches fra API
     func reload() async {
         hasLoaded = false
         await load()

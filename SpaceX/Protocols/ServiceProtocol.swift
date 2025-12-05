@@ -10,7 +10,7 @@ import FirebaseAuth
 
 // Protokoller til ViewModels: dekopling.
 protocol LaunchServiceProtocol {
-    func getLatestLaunches() async throws -> [Launch]
+    func getAllLaunches() async throws -> [Launch]
     func getLaunchById(_ id: String) async throws -> Launch
     func idsToLaunchArray(_ ids: [String]) async throws -> [Launch]
 }
